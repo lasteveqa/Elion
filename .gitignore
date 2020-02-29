@@ -1,0 +1,25 @@
+# Binaries
+**/bin/
+!vendor/bin/premake/
+bin-intermediate/
+
+# Elion files
+*.log
+
+# Visual Studio files and folder
+.vs/
+**.sln
+**.vcxproj
+**.vcxproj.filters
+**.vcxproj.user
+
+
+
+# Other files
+*.ttf
+*.dll
+*.exe
+*.lib
+*.bat
+*.idb
+*.pbd
