@@ -16,7 +16,7 @@ public:
 
  int main(int argc, char* argv[])
 {
-	
+	// glewInit();
 	 
 	 test s;
 	

@@ -16,3 +16,11 @@
                                         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); 
                                 
 
+namespace Elion
+{
+	template<typename T , typename ... Args>
+	constexpr std::shared_ptr<T> create_ref(Args&& ... args)
+	{
+		return std::make_shared<T>(std::forward<Args>(args)...);
+	}
+}

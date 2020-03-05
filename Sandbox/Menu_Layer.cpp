@@ -8,14 +8,15 @@ Menu_Layer::Menu_Layer()
 
 void Menu_Layer::init()
 {
-	
-
 	float vertices[3 * 7] = {
-		-0.5f, -0.5f, 0.0f,           1.0f, 1.0f, 1.0f, 
+		-0.5f, -0.5f, 0.0f,           1.0f, 1.0f, 1.0f,
 		 1.0f,  0.5f, -0.5f,          0.0f, 1.0f, 0.0f,
 		 0.5f, 1.0f,   0.0f,          1.0f, 0.0f, 1.0f
 	};
 
+	
+
+	
 
 
 	const char* vertexSrc = R"(
@@ -47,16 +48,19 @@ void Menu_Layer::init()
 				color = v_Color;
 			}
 		)";
-
+	
 
 	this->program = Elion::Shader::load_shader(vertexSrc, fragmentSrc);
 
-	glGenBuffers(1, &this->vbo);
-	glGenVertexArrays(1, &this->vao);
+	this->m_VertexBuffer = Elion::create_ref<Elion::VertexBuffer>(vertices, sizeof(vertices));
+	this->m_VertexArray = Elion::create_ref<Elion::VertexArray>();
 
-	glBindVertexArray(this->vao);
-	glBindBuffer(GL_ARRAY_BUFFER, this->vbo);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+	//glGenBuffers(1, &this->vbo);
+	//glGenVertexArrays(1, &this->vao);
+
+	//glBindVertexArray(this->vao);
+	//glBindBuffer(GL_ARRAY_BUFFER, this->vbo);
+	//glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
 
 	this->positionAttribute = glGetAttribLocation(program, "a_Position");
@@ -76,13 +80,14 @@ void Menu_Layer::init()
 
 void Menu_Layer::update()
 {
-
+	
 }
 
 void Menu_Layer::render()
 {
 	glUseProgram(this->program);
-	glBindVertexArray(this->vao);
+	//glBindVertexArray(this->vao);
+	this->m_VertexArray->bind();
 	//modelViewProjection(0.0f);
 	glDrawArrays(GL_TRIANGLES, 0, 3);
 }
@@ -90,6 +95,6 @@ void Menu_Layer::render()
 void Menu_Layer::clear()
 {
 	glDeleteProgram(program);
-	glDeleteBuffers(1, &this->vbo);
-	glDeleteVertexArrays(1, &this->vao);
+	//glDeleteBuffers(1, &this->vbo);
+	//glDeleteVertexArrays(1, &this->vao);
 }

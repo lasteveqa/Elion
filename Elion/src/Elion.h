@@ -22,8 +22,13 @@
 #include "Core/Layer.h"
 #include "Core/Text.h"
 #include "Core/Window.h"
+
 #include "Renderer/Shader.h"
 #include "Renderer/Renderer.h"
+#include "Renderer/VertexBuffer.h"
+#include "Renderer/VertexArray.h"
+#include "Renderer/OpenGL_API.h"
+
 #include "Core/KeyCode.h"
 #include "Core/MouseCode.h"
 #include "Core/Application.h"
