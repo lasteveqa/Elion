@@ -18,6 +18,8 @@
 
 namespace Elion
 {
+	typedef unsigned int uint;
+
 	template<typename T , typename ... Args>
 	constexpr std::shared_ptr<T> create_ref(Args&& ... args)
 	{

@@ -2,7 +2,7 @@
 
 namespace Elion
 {
-	uint32_t VertexArray::VAO;
+	
 
 	VertexArray::VertexArray()
 	{

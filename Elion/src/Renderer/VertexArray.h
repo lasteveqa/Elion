@@ -9,7 +9,7 @@ namespace Elion
 	class ELION_API VertexArray
 	{
 	private:
-		static uint32_t VAO;
+		uint32_t VAO;
 
 	public:
 		VertexArray();

@@ -8,7 +8,7 @@ namespace Elion
 	class ELION_API VertexBuffer
 	{
 	private:
-		static uint32_t VBO;
+		uint32_t VBO;
 
 	public:
 		VertexBuffer(float* vertices, uint32_t size);

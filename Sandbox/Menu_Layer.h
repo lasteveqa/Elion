@@ -7,11 +7,14 @@ class Menu_Layer : public Elion::Layer
 {
 
 private:
-	GLuint vbo, vao, program , positionAttribute, colorAttribute;
+	//GLuint program;
 	Elion::LayerState state;
 
 	std::shared_ptr<Elion::VertexArray> m_VertexArray;
 	std::shared_ptr<Elion::VertexBuffer> m_VertexBuffer;
+
+	std::shared_ptr<Elion::VertexArray> m_VertexArray2;
+	std::shared_ptr<Elion::VertexBuffer> m_VertexBuffer2;
 public:
 
 	Menu_Layer();

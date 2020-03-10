@@ -8,16 +8,17 @@ Menu_Layer::Menu_Layer()
 
 void Menu_Layer::init()
 {
-	float vertices[3 * 7] = {
+	float vertices[] = {
 		-0.5f, -0.5f, 0.0f,           1.0f, 1.0f, 1.0f,
 		 1.0f,  0.5f, -0.5f,          0.0f, 1.0f, 0.0f,
 		 0.5f, 1.0f,   0.0f,          1.0f, 0.0f, 1.0f
 	};
 
-	
-
-	
-
+	float vertices2[] = {
+		-1.0f, -0.5f, 1.0f,           1.0f, 1.0f, 1.0f,
+		 0.0f,  0.5f, -0.5f,          0.0f, 1.0f, 0.0f,
+		 0.0f, 1.0f,   0.0f,          1.0f, 0.0f, 1.0f
+	};
 
 	const char* vertexSrc = R"(
 			#version 430 core
@@ -49,32 +50,15 @@ void Menu_Layer::init()
 			}
 		)";
 	
-
-	this->program = Elion::Shader::load_shader(vertexSrc, fragmentSrc);
+	Elion::OpenGL_API opengl_api(Elion::Shader::load_shader(vertexSrc, fragmentSrc));
 
 	this->m_VertexBuffer = Elion::create_ref<Elion::VertexBuffer>(vertices, sizeof(vertices));
 	this->m_VertexArray = Elion::create_ref<Elion::VertexArray>();
 
-	//glGenBuffers(1, &this->vbo);
-	//glGenVertexArrays(1, &this->vao);
+	this->m_VertexBuffer2 = Elion::create_ref<Elion::VertexBuffer>(vertices2, sizeof(vertices2));
+	this->m_VertexArray2 = Elion::create_ref<Elion::VertexArray>();
 
-	//glBindVertexArray(this->vao);
-	//glBindBuffer(GL_ARRAY_BUFFER, this->vbo);
-	//glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-
-
-	this->positionAttribute = glGetAttribLocation(program, "a_Position");
-	glEnableVertexAttribArray(this->positionAttribute);
-	glVertexAttribPointer(this->positionAttribute, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), 0);
-
-
-
-	this->colorAttribute = glGetAttribLocation(program, "a_Color");
-	glEnableVertexAttribArray(this->colorAttribute);
-	glVertexAttribPointer(this->colorAttribute, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
-
-
-	
+	opengl_api.init();
 
 }
 
@@ -85,16 +69,21 @@ void Menu_Layer::update()
 
 void Menu_Layer::render()
 {
-	glUseProgram(this->program);
-	//glBindVertexArray(this->vao);
+	glUseProgram(Elion::OpenGL_Program::get_program());
+	this->m_VertexArray2->unbind();
 	this->m_VertexArray->bind();
 	//modelViewProjection(0.0f);
 	glDrawArrays(GL_TRIANGLES, 0, 3);
+	this->m_VertexArray->unbind();
+	glUseProgram(0);
+	glUseProgram(Elion::OpenGL_Program::get_program());
+	this->m_VertexArray2->bind();
+	glDrawArrays(GL_TRIANGLES, 0, 3);
+	glUseProgram(0);
 }
 
 void Menu_Layer::clear()
 {
-	glDeleteProgram(program);
 	//glDeleteBuffers(1, &this->vbo);
 	//glDeleteVertexArrays(1, &this->vao);
 }

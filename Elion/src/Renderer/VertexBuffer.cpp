@@ -1,7 +1,7 @@
 #include "VertexBuffer.h"
 namespace Elion
 {
-	uint32_t VertexBuffer::VBO;
+	
 
 
 	VertexBuffer::VertexBuffer(float* vertices, uint32_t size)
