@@ -2,7 +2,7 @@
 
 Elion Engine C++
 
-Elion C++ Game Engine was written with support SDL library & OpenGL API.
+Elion Game Engine was written with support SDL library & OpenGL API.
 
 
 
