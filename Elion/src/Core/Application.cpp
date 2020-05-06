@@ -7,6 +7,7 @@ namespace Elion
 
 	Application::Application()
 	{
+		
 		Log::init();
 	}
 

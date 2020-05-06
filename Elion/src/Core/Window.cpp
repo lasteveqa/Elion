@@ -9,6 +9,7 @@ namespace Elion
 
 	Window::Window(const WindowProperties& props) : wprops(props)
 	{
+		
 	
 		if (SDL_Init(SDL_INIT_EVERYTHING) >= 0)
 		{
@@ -28,6 +29,19 @@ namespace Elion
 
 
 		gl_context = SDL_GL_CreateContext(this->window);
+
+		glewExperimental = GL_TRUE;
+		GLenum glewError = glewInit();
+		if (glewError != GLEW_OK)
+			ELION_ERROR("Glew was uninitialized , check if you installed it correctly!");
+
+		glEnable(GL_DEPTH_TEST); // This one keeps background objects visible
+		glDepthFunc(GL_LESS);
+
+		glEnable(GL_BLEND); // This one helps us to create transparency
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+		glLineWidth(3); // Thicken lines so we can see 'em clearly
     }
 
 	
@@ -38,7 +52,9 @@ namespace Elion
 
 	Window::~Window()
 	{
-		SDL_DestroyWindow(this->window);
 		Renderer::clear();
+		SDL_DestroyWindow(this->window);
+		SDL_GL_DeleteContext(this->gl_context);
+		
 	}
 }

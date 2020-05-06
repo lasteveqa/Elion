@@ -16,7 +16,7 @@ public:
 
  int main(int argc, char* argv[])
 {
-	// glewInit();
+	
 	 
 	 test s;
 	
@@ -34,7 +34,7 @@ public:
 
 	while (app.is_running())
 	{
-		ELION_PRE_GAME_CYCLE(window);
+		ELION_PRE_GAME_LOOP(window);
 	
 
 		while (SDL_PollEvent(&e.event()))

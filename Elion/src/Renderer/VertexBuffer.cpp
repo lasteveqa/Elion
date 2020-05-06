@@ -6,13 +6,10 @@ namespace Elion
 
 	VertexBuffer::VertexBuffer(float* vertices, uint32_t size)
 	{
-		
-		glGenBuffers(1, &this->VBO);
-		glBindBuffer(GL_ARRAY_BUFFER, this->VBO);
-		glBufferData(GL_ARRAY_BUFFER, size, vertices, GL_STATIC_DRAW);
+		glGenBuffers(1, &VBO);
+		glBindBuffer(GL_ARRAY_BUFFER, VBO);
+		glBufferData(GL_ARRAY_BUFFER, size, &vertices, GL_STATIC_DRAW);
 	}
-
-	
 
 
 	void VertexBuffer::bind()

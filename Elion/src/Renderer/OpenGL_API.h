@@ -3,34 +3,41 @@
 #include "Core/Core.h"
 #include "SDL/SDL.h"
 #include "Renderer/Shader.h"
+#include "Renderer/VertexBuffer.h"
+#include "Renderer/VertexArray.h"
+#include "Renderer/VertexIndices.h"
+#include "Renderer/OBJLoader.h"
+#include "Renderer/Attributes.h"
 
 namespace Elion
 {
-	struct VertexAttributes
-	{
-		uint Position, Color;
-
-	};
 
 
 	class ELION_API OpenGL_API
 	{
 	private:
-		VertexAttributes va;
 
+		
+	
 
 	public:
-		OpenGL_API(uint program)
+		
+		static std::shared_ptr<VertexArray> vao() 
 		{
-			OpenGL_Program::set_program(program);
+			std::shared_ptr<VertexArray> _vao;
+			return _vao; 
+		}
+		static std::shared_ptr<VertexBuffer> vbo() 
+		{ 
+			std::shared_ptr<VertexBuffer> _vbo;
+			return _vbo; 
+		}
+		static std::shared_ptr<VertexIndices> ebo()
+		{
+			std::shared_ptr<VertexIndices> _ebo;
+			return _ebo;
 		}
 		
-
-		void init();
-
-		inline uint get_vertex_attribute_position() const { return this->va.Position; }
-		inline uint get_vertex_attribute_color() const { return this->va.Color; }
-
 	};
 
 }

@@ -8,82 +8,72 @@ Menu_Layer::Menu_Layer()
 
 void Menu_Layer::init()
 {
-	float vertices[] = {
-		-0.5f, -0.5f, 0.0f,           1.0f, 1.0f, 1.0f,
-		 1.0f,  0.5f, -0.5f,          0.0f, 1.0f, 0.0f,
-		 0.5f, 1.0f,   0.0f,          1.0f, 0.0f, 1.0f
-	};
 
-	float vertices2[] = {
-		-1.0f, -0.5f, 1.0f,           1.0f, 1.0f, 1.0f,
-		 0.0f,  0.5f, -0.5f,          0.0f, 1.0f, 0.0f,
-		 0.0f, 1.0f,   0.0f,          1.0f, 0.0f, 1.0f
-	};
-
-	const char* vertexSrc = R"(
-			#version 430 core
-			
-			layout(location = 0) in vec3 a_Position;
-			layout(location = 1) in vec4 a_Color;
-			uniform mat4 u_ViewProjection;
-			uniform mat4 u_Transform;
-			out vec3 v_Position;
-			out vec4 v_Color;
-			void main()
-			{
-				v_Position = a_Position;
-				v_Color = a_Color;
-				gl_Position = vec4(a_Position, 1.0);	
-			}
-		)";
-
-	const char* fragmentSrc = R"(
-			#version 430 core
-			
-			layout(location = 0) out vec4 color;
-			in vec3 v_Position;
-			in vec4 v_Color;
-			void main()
-			{
-				color = vec4(v_Position * 0.5 + 0.5, 1.0);
-				color = v_Color;
-			}
-		)";
 	
-	Elion::OpenGL_API opengl_api(Elion::Shader::load_shader(vertexSrc, fragmentSrc));
 
-	this->m_VertexBuffer = Elion::create_ref<Elion::VertexBuffer>(vertices, sizeof(vertices));
-	this->m_VertexArray = Elion::create_ref<Elion::VertexArray>();
+	std::cout << glGetString(GL_VERSION) << std::endl;
 
-	this->m_VertexBuffer2 = Elion::create_ref<Elion::VertexBuffer>(vertices2, sizeof(vertices2));
-	this->m_VertexArray2 = Elion::create_ref<Elion::VertexArray>();
+	Elion::OBJLoader obj;
+	obj.loadOBJ("untitled.obj");
 
-	opengl_api.init();
+	std::vector<unsigned int> faces = obj.get_face();
+
+	std::vector<unsigned int> indices;
+
+	for (std::size_t i = 0; i < faces.size(); i += 3)
+	{
+		indices.push_back(faces[i]);
+	}
+
+	this->shader = std::make_shared<Elion::Shader>(new Elion::MVP());
+
+	this->program = this->shader->load_shader("glsl/vertex_shader.glsl", "glsl/fragment_shader.glsl");
+
+	this->_vao = std::make_shared<Elion::VertexArray>();
+	this->_vbo = std::make_shared<Elion::VertexBuffer>(&obj.get_p_vertices()[0], sizeof(obj.get_p_vertices()));
+
+	this->_ebo = std::make_shared<Elion::VertexIndices>(indices);
+
+	Elion::Attributes attrbs = Elion::Attributes({ { "aPos" , 3 , GL_FALSE , 3 , 0 , this->program} });
+
+	//this->shader->set_mvp(new Elion::MVP());
 
 }
 
 void Menu_Layer::update()
 {
-	
 }
 
 void Menu_Layer::render()
 {
-	glUseProgram(Elion::OpenGL_Program::get_program());
-	this->m_VertexArray2->unbind();
-	this->m_VertexArray->bind();
-	//modelViewProjection(0.0f);
-	glDrawArrays(GL_TRIANGLES, 0, 3);
-	this->m_VertexArray->unbind();
+	glUseProgram(this->program);
+	this->_vao->bind();
+
+
+	if (this->shader->is_mvp_set())
+	{
+		
+		this->shader->matrix_name("model");
+		this->shader->matrix_name("view");
+		this->shader->matrix_name("projection");
+		
+		this->shader->matrix_rotate(Elion::MatrixProperties(15.0f) , Elion::VCoord(1.0f, 1.0f, 0.0f));
+		this->shader->matrix_translate(Elion::VCoord(0.0f, -0.4f, -4.0f));
+		this->shader->matrix_perspective(Elion::MatrixProperties(45.0f, 800.0f, 600.0f, 0.1f, 100.0f));
+
+		this->shader->upload_uniform_mat4(this->program);
+		
+	}
+
+	//shader->mvp_func(this->program);
+	this->_ebo->draw();
+
+	//this->shader->s_mvp()->clear();
+
 	glUseProgram(0);
-	glUseProgram(Elion::OpenGL_Program::get_program());
-	this->m_VertexArray2->bind();
-	glDrawArrays(GL_TRIANGLES, 0, 3);
-	glUseProgram(0);
+	this->_vao->unbind();
 }
 
 void Menu_Layer::clear()
 {
-	//glDeleteBuffers(1, &this->vbo);
-	//glDeleteVertexArrays(1, &this->vao);
 }

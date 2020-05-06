@@ -1,5 +1,5 @@
 #pragma once
-
+#include "GL/glew.h"
 #include "Core/Core.h"
 #include "SDL.h"
 #include "Core/Log.h"
