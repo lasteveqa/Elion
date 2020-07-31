@@ -1,7 +1,6 @@
 #pragma once
 #include "SDL_ttf.h"
 #include "Core/Core.h"
-#include "Core/Color.h"
 #include "Renderer/Renderer.h"
 
 namespace Elion
@@ -13,7 +12,7 @@ namespace Elion
 
 		TextProperties(const char* font = "Backhill.ttf", const char* text = "Elion Text", int fontSize = 60) : Font(font),
 			Text(text), FontSize(fontSize) {}
-
+		
 	};
 
 	struct TextPosition

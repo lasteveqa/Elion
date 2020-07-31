@@ -1,9 +1,9 @@
 #pragma once
-#include "Core.h"
-#include "Core/Window.h"
-#include "SDL/SDL.h"
+#include "Core/Core.h"
+
 #include "Time.h"
-#include "Events/ApplicationEvent.h"
+#include "Events/Event.h"
+#include "Windows/MainWindow.h"
 namespace Elion
 {
 	
@@ -13,7 +13,8 @@ namespace Elion
 	private:
 
 		bool running = true;
-
+	
+		WindowSwitcher m_WindowSwitcher;
 	public:
 
 		bool is_running() { return this->running; }
@@ -21,23 +22,17 @@ namespace Elion
 		void set_running(bool enable) { this->running = enable; }
 
 		void init();
-		void Run();
 
-		
+		void begin_render();
+		void end_render();
 
-	
-
-		
-
-		bool on_window_stop(WindowCloseEvent& e);
+		void run();
 
 		void OnEvent(Event& e);
 
 		
 	    void update();
 
-		/*void PushLayer(Layer* layer);
-		void PushOverlay(Layer* layer);*/
 		
 		Application();
 		~Application();

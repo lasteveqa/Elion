@@ -1,15 +1,35 @@
 #pragma once
 
-//#include "ElionPrecompiledHeader.h"
+#include "Core/Text.h"
+#include "Core/Time.h"
+#include "Core/Core.h"
+#include "Core/KeyCode.h"
+#include "Core/Application.h"
+#include "Core/Log.h"
+#include "Core/Input.h"
+
+#include "Renderer/ParticleSystem.h"
+#include "Renderer/Camera.h"
+#include "Renderer/OBJLoader.h"
+#include "Renderer/Shader.h"
+#include "Renderer/Renderer.h"
+#include "Renderer/VertexBuffer.h"
+#include "Renderer/VertexArray.h"
+#include "Renderer/OpenGL_API.h"
+#include "Renderer/Texture.h"
+#include "Renderer/Tileset.h"
+
+
+#include "Primitives/Primitive.h"
+#include "Primitives/Triangle.h"
+#include "Primitives/Quad.h"
+
+#include "Move/Velocity.h"
+
 #include <memory>
 
 
 
-
-// RENDERER FILES
-//#include "Renderer/Renderer.h"
-
-#include <iostream>
 #include <string>
 
 
@@ -18,24 +38,5 @@
 
 
 // Elion Files
-
-#include "Core/Layer.h"
-#include "Core/Text.h"
-#include "Core/Window.h"
-//#include "Renderer/MVP.h"
-#include "Renderer/OBJLoader.h"
-#include "Renderer/Shader.h"
-#include "Renderer/Renderer.h"
-#include "Renderer/VertexBuffer.h"
-#include "Renderer/VertexArray.h"
-#include "Renderer/OpenGL_API.h"
-
-#include "Core/KeyCode.h"
-#include "Core/MouseCode.h"
-#include "Core/Application.h"
-#include "Core/Core.h"
-#include "Core/Log.h"
-
-
 
 

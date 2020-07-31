@@ -2,64 +2,51 @@
 #include "GL/glew.h"
 #include "Core/Log.h"
 #include "Core/Core.h"
-#include "Renderer/MVP.h"
 #include <iostream>
 #include <string>
 #include <sstream>
 #include <fstream>
-
+#include "glm/glm.hpp"
+#include "glm/gtx/transform.hpp"
+#include "glm/gtc/type_ptr.hpp"
+#include "glm/gtx/compatibility.hpp"
 
 
 namespace Elion
 {
 
-	class ELION_API Shader : public MVP
+	class ELION_API Shader
 	{
 	private:
-		
-		MVP* p_mvp;
+		GLuint m_program;
+		std::unordered_map<std::string, int> m_UnifromLocatios;
 	public:
-		Shader(MVP *mvp) : p_mvp(mvp){}
+		Shader(){}
+		Shader(const char* vertex_file_path, const char* fragment_file_path);
 
-		GLuint load_shader(const char* vertex_file_path, const char* fragment_file_path);
+		 GLuint load_GLSL(const char* vertex_file_path, const char* fragment_file_path);
+		 GLuint load_native_GLSL(const std::string& vertex_shader, const std::string& fragment_shader);
+
 
 		void shaderLinkCheck(uint ID);
 		void shaderCompilerCheck(uint ID);
-        
-		void set_mvp(MVP* mvp);
+
+		void set_uniform_location(GLint location, glm::mat4 matrix);
 		
-		void upload_uniform_mat4(GLuint program);
-
-		void matrix_name(std::string matrix_name);
-		void matrix_rotate(const MatrixProperties& mp , const VCoord& c);
-		void matrix_translate(const VCoord& c);
-		void matrix_perspective(const MatrixProperties& mp);
-
-
-		void matrix_name_output()
-		{
-			p_mvp->matrix_name_output();
-		}
-		
-		void matrix_matrices_output()
-		{
-			this->p_mvp->matrix_matrices_output();
-		}
-
-		bool is_mvp_set();
-
 	
+		GLint get_uniform_location(GLuint program, const std::string& name);
+
+		void set_uniform1i(GLuint program ,const std::string& name , float value);
+
+
+		GLuint get_program() { return m_program; }
 	 
 		void mvp_func(GLuint program);
 
 
-		void begin_mvp_loop();
-		void end_mvp_loop();
+		~Shader(){}
 	};
 
 
 }
 
-
-#define BEGIN_MVP_LOOP Elion::Shader::begin_mvp_loop
-#define END_MVP_LOOP Elion::Shader::end_mvp_loop

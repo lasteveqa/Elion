@@ -6,7 +6,7 @@ namespace Elion
 
 	VertexArray::VertexArray()
 	{
-		glGenVertexArrays(1, &this->VAO);
+		glCreateVertexArrays(1, &this->VAO);
 		glBindVertexArray(this->VAO);
 	}
 

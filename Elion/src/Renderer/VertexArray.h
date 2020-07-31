@@ -3,6 +3,7 @@
 #include "SDL/SDL.h"
 #include "Core/Core.h"
 #include "Renderer/VertexBuffer.h"
+#include "Renderer/IndexBuffer.h"
 namespace Elion
 {
 	
@@ -12,6 +13,8 @@ namespace Elion
 
 		uint VAO;
 	
+		std::vector<std::shared_ptr<VertexBuffer>> m_VertexBuffers;
+		std::shared_ptr<IndexBuffer> m_IndexBuffer;
 
 	public:
 		VertexArray();
@@ -20,9 +23,21 @@ namespace Elion
 		void bind();
 		void unbind();
 
-	
-		void bind_vertex_buffers();
-		void unbind_vertex_buffers();
+		void add_vertex_buffer(const std::shared_ptr<VertexBuffer>& vertexBuffer)
+		{
+			this->m_VertexBuffers.push_back(vertexBuffer);
+		}
+
+		void set_index_buffer(const std::shared_ptr<IndexBuffer>& indexBuffer)
+		{
+			
+			this->m_IndexBuffer = indexBuffer;
+		}
+
+		void draw()
+		{
+			this->m_IndexBuffer->draw();
+		}
 
 		inline GLuint get_vao() { return this->VAO; }
 

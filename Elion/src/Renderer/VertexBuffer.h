@@ -3,6 +3,7 @@
 #include "SDL/SDL.h"
 #include "Core/Core.h"
 #include <iostream>
+#include "Renderer/Attributes.h"
 
 namespace Elion
 {
@@ -16,7 +17,7 @@ namespace Elion
 		GLuint VBO;
 
 	
-
+		std::vector<Attribute> attributeElements;
 
 	public:
 		
@@ -26,8 +27,18 @@ namespace Elion
 		void bind();
 		void unbind();
 
+
+		void set_vertex_attribute(const Attribute& attr)
+		{
+			this->attributeElements.push_back(attr);
+		}
+
 		inline GLuint get_vbo() { return this->VBO; }
 		
+		static std::shared_ptr<VertexBuffer> create(float* vertices, uint32_t size)
+		{
+			return std::make_shared<VertexBuffer>(vertices, size);
+		}
 	};
 
 }
