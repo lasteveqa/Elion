@@ -1,9 +1,6 @@
 # Elion
 
 
-Elion Game Engine was written with support SDL library & OpenGL API.
+Elion Game Engine was written usign SDL/OpenGL/ImGui
 
 
-
-# INSTRUCTION :
- coming soon :)
