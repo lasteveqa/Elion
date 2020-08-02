@@ -20,7 +20,7 @@ namespace Elion
 		void draw() override;
 
 
-		bool is_set() override;
+		bool free_vao();
 	};
 
 }

@@ -5,12 +5,12 @@ namespace Elion
 {
 	namespace Interface
 	{
-		void Properties::init(SDL_Window* window, SDL_GLContext gl_context)
+		void Properties::init()
 		{
 			
 		}
 
-		void Properties::render(SDL_Window* window)
+		void Properties::render()
 		{
 			
 			ImGuiIO& io = ImGui::GetIO();

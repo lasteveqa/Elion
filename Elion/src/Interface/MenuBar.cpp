@@ -1,35 +1,21 @@
-#include "MenuBar.h"
-
+#include "Interface/MenuBar.h"
 
 namespace Elion
 {
 	namespace Interface
 	{
-		void MenuBar::init(SDL_Window* window, SDL_GLContext gl_context)
+		void MenuBar::init()
 		{
 
 		}
 
-		void MenuBar::render(SDL_Window* window)
+		void MenuBar::render()
 		{
-
-			
 			if (ImGui::BeginMainMenuBar())
 			{
 				if (ImGui::BeginMenu("File"))
 				{
-					if (ImGui::MenuItem("New"))
-					{
-						//Do something
-					}
-					if (ImGui::MenuItem("Open"))
-					{
-						//Do something
-					}
-					if (ImGui::MenuItem("Save"))
-					{
-						//Do something
-					}
+					
 					ImGui::EndMenu();
 				}
 				if (ImGui::BeginMenu("Edit"))
@@ -42,7 +28,6 @@ namespace Elion
 				}
 				ImGui::EndMainMenuBar();
 			}
-
 		}
 
 		void MenuBar::clear()
@@ -51,3 +36,5 @@ namespace Elion
 		}
 	}
 }
+
+

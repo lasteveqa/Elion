@@ -39,6 +39,7 @@ namespace Elion
 
 				glLineWidth(3); // Thicken lines so we can see 'em clearly
 				Interface::UserInterface::init(this->window, this->gl_context);
+				
 	}
 
 	void MainWindow::render()

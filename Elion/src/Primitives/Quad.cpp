@@ -12,7 +12,6 @@ namespace Elion
 	void Quad::set_color(const Color& color)
 	{
 		this->color = color;
-		this->changes = true;
 	}
 
 	void Quad::set_position(const Position& position)
@@ -26,14 +25,9 @@ namespace Elion
 	}
 
 
-	bool Quad::is_set()
-	{
-		return this->changes;
-	}
-
 	void Quad::update()
 	{
-		if (changes)
+		if (!this->VAO)
 		{
 
 			float vertices[] = {
@@ -101,7 +95,6 @@ namespace Elion
 			glBindBuffer(GL_ARRAY_BUFFER, 0);
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 			
-			this->changes = false;
 		}
 
 	}
@@ -129,5 +122,16 @@ namespace Elion
 
 		glUseProgram(0);
 		glBindVertexArray(0);
+	}
+
+	bool Quad::free_vao()
+	{
+		if (this->VAO)
+		{
+			glDeleteVertexArrays(1, &this->VAO);
+			return true;
+		}
+		else
+			return false;
 	}
 }

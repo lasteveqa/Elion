@@ -11,7 +11,6 @@ namespace Elion
 	void Triangle::set_color(const Color& color)
 	{
 		this->color = color;
-		this->changes = true;
 	}
 	void Triangle::set_position(const Position& position)
 	{
@@ -24,15 +23,9 @@ namespace Elion
 	}
 
 
-	bool Triangle::is_set()
-	{
-		return this->changes;
-	}
-
-
 	void Triangle::update()
 	{
-		if (changes)
+		if (!this->VAO)
 		{
 			float vertices[] = {
 			 -0.5f, -0.5f, 0.0f, this->color.R , this->color.G , this->color.B , this->color.A,
@@ -97,9 +90,6 @@ namespace Elion
 			glVertexAttribPointer(color_attribute, 4, GL_FLOAT, GL_FALSE, 7 * sizeof(float), (void*)(3 * sizeof(float)));
 
 
-			this->changes = false;
-
-
 		}
 	}
 
@@ -126,5 +116,16 @@ namespace Elion
 		glUseProgram(0);
 		glBindVertexArray(0);
 		
+	}
+
+	bool Triangle::free_vao()
+	{
+		if (this->VAO)
+		{
+			glDeleteVertexArrays(1, &this->VAO);
+			return true;
+		}
+		else
+			return false;
 	}
 }

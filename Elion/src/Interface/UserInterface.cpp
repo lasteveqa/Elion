@@ -38,10 +38,10 @@ namespace Elion
 		{
 			begin(window);
 
-			m_MenuBar.render(window);
-			m_ToolBar.render(window);
-			m_Properties.render(window);
-			m_SceneOutliner.render(window);
+			m_MenuBar.render();
+			m_ToolBar.render();
+			m_Properties.render();
+			m_SceneOutliner.render();
 
 			end();
 		}

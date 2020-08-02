@@ -5,12 +5,12 @@ namespace Elion
 {
 	namespace Interface
 	{
-		void ToolBar::init(SDL_Window* window, SDL_GLContext gl_context)
+		void ToolBar::init()
 		{
 
 		}
 
-		void ToolBar::render(SDL_Window* window)
+		void ToolBar::render()
 		{
 			
 			ImGui::SetNextWindowSizeConstraints(ImVec2(200.0f, 200.0f), ImVec2(200.0f, 200.0f));
@@ -24,15 +24,19 @@ namespace Elion
 				{
 					if (ImGui::MenuItem("Triangle"))
 					{
-						this->TriangleSelected = true;
+						
+						Scene::add_primitive(PrimitiveTypes::TRIANGLE);
+						m_PrimitiveTypes.push_back(PrimitiveTypes::TRIANGLE);
 					
 					}
 					if (ImGui::MenuItem("Quad"))
 					{
-						this->QuadSelected = true;
+						Scene::add_primitive(PrimitiveTypes::QUAD);
+						m_PrimitiveTypes.push_back(PrimitiveTypes::QUAD);
 					}
 					if (ImGui::MenuItem("Round"))
 					{
+						
 					}
 					ImGui::EndMenu();
 				}
@@ -47,19 +51,19 @@ namespace Elion
 				ImGui::End();
 			}
 
-			if (this->TriangleSelected)
+		/*	if (this->TriangleSelected)
 			{
 				Scene::draw_triangle();
-				this->TriangleSelected = false;
+				
 			}
-
+			
 			if (this->QuadSelected)
 			{
 				Scene::draw_quad();
-				this->QuadSelected = false;
-			}
+				
+			}*/
 			
-			
+			Scene::draw();
 
 
 

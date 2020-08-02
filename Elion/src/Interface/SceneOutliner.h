@@ -8,10 +8,12 @@ namespace Elion
 	{
 		class SceneOutliner : public UIComponent
 		{
+		private:
+			
 
 		public:
-			void init(SDL_Window* window, SDL_GLContext gl_context);
-			void render(SDL_Window* window);
+			void init();
+			void render();
 			void clear();
 		};
 	}

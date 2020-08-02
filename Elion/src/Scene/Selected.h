@@ -8,5 +8,7 @@ namespace Elion
 	{
 	private:
 
+	public:
+
 	};
 }

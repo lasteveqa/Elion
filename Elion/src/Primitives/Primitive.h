@@ -6,6 +6,12 @@
 
 namespace Elion
 {
+	enum PrimitiveTypes
+	{
+		TRIANGLE = 0,
+		QUAD = 1,
+		ROUND = 2
+	};
 
 
 	struct Velocity
@@ -84,13 +90,12 @@ namespace Elion
 		{
 		}
 
-		virtual void set_color(const Color& color) = 0;
-		virtual void set_position(const Position& position) = 0;
-		virtual void set_size(const Size& size) = 0;
-		virtual void update() = 0;
-		virtual void draw() = 0;
+		virtual void set_color(const Color& color){}
+		virtual void set_position(const Position& position){}
+		virtual void set_size(const Size& size){}
+		virtual void update(){}
+		virtual void draw(){}
 
-		virtual bool is_set() = 0;
 	};
 
 }

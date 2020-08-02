@@ -1,6 +1,5 @@
 #pragma once
 #include "Interface/UIComponent.h"
-#include "Scene/Scene.h"
 
 namespace Elion
 {
@@ -15,8 +14,8 @@ namespace Elion
 			bool QuadSelected = false;
 
 		public:
-			void init(SDL_Window* window, SDL_GLContext gl_context) override;
-			void render(SDL_Window* window) override;
+			void init() override;
+			void render() override;
 			void clear() override;
 		};
 	}
