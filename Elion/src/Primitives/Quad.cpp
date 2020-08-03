@@ -109,7 +109,7 @@ namespace Elion
 		glBindVertexArray(VAO);
 
 
-		glm::mat4 scale = glm::mat4(1.0f);
+		glm::mat4 scale = glm::mat4(0.5f);
 
 		scale = Elion::Camera::scale(scale, size.X, size.Y, size.Z);
 

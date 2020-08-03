@@ -18,6 +18,11 @@ namespace Elion
 			static std::vector<PrimitiveTypes> m_PrimitiveTypes;
 			WindowProperties m_Wprops;
 
+			Color m_Color;
+			Size m_Size;
+			Position m_Position;
+
+
 		public:
 			virtual void init(){}
 			virtual void render(){}

@@ -15,7 +15,18 @@ namespace Elion
 			{
 				if (ImGui::BeginMenu("File"))
 				{
-					
+					if (ImGui::MenuItem("New"))
+					{
+						
+					}
+					if (ImGui::MenuItem("Open"))
+					{
+
+					}
+					if (ImGui::MenuItem("Save"))
+					{
+
+					}
 					ImGui::EndMenu();
 				}
 				if (ImGui::BeginMenu("Edit"))

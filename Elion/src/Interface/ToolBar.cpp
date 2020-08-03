@@ -50,20 +50,8 @@ namespace Elion
 				}
 				ImGui::End();
 			}
-
-		/*	if (this->TriangleSelected)
-			{
-				Scene::draw_triangle();
-				
-			}
 			
-			if (this->QuadSelected)
-			{
-				Scene::draw_quad();
-				
-			}*/
 			
-			Scene::draw();
 
 
 

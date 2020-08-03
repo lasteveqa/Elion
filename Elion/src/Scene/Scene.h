@@ -24,14 +24,9 @@ namespace Elion
 
 	public:
 		static void add_primitive(PrimitiveTypes pt);
-		static void create_triangle();
-		static void create_quad();
-		static void draw_triangle();
-		static void draw_quad();
+		static void set_properties(Color& color, Size& size, Position& position);
 		static void draw();
 
-		static void delete_triangle();
 
-		static bool is_TrianglePicked(bool is_picked);
 	};
 }

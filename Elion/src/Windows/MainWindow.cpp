@@ -50,6 +50,7 @@ namespace Elion
 	void MainWindow::update()
 	{
 		Interface::UserInterface::render(this->window);
+		Scene::draw();
 	}
 
 
