@@ -4,8 +4,7 @@ namespace Elion
 {
 	Quad::Quad()
 	{
-		
-
+	
 		
 	}
 
@@ -27,6 +26,8 @@ namespace Elion
 
 	void Quad::update()
 	{
+	
+		
 		if (!this->VAO)
 		{
 
@@ -36,7 +37,6 @@ namespace Elion
 		  0.5f,  0.5f, 0.0f, this->color.R , this->color.G , this->color.B , this->color.A,
 		 -0.5f,  0.5f, 0.0f, this->color.R , this->color.G , this->color.B ,  this->color.A
 			};
-
 
 			std::string vertexSrc = R"(
 			#version 430 core
@@ -53,7 +53,7 @@ namespace Elion
                 	
 			}
 		)";
-
+			
 			std::string fragmentSrc = R"(
 				#version 430 core
 
@@ -62,9 +62,11 @@ namespace Elion
                 in vec4 v_Color;
 				void main()
 				{
-				color = v_Color;
+                   color = v_Color;
 				}
         )";
+
+
 
 			uint32_t indices[] = { 0 , 1 , 2 , 2 , 3 , 0 };
 
@@ -110,7 +112,7 @@ namespace Elion
 
 
 		glm::mat4 scale = glm::mat4(0.5f);
-
+		
 		scale = Elion::Camera::scale(scale, size.X, size.Y, size.Z);
 
 		this->location = glGetUniformLocation(program, "translate");
@@ -124,14 +126,16 @@ namespace Elion
 		glBindVertexArray(0);
 	}
 
-	bool Quad::free_vao()
+
+
+
+	void Quad::free()
 	{
 		if (this->VAO)
 		{
 			glDeleteVertexArrays(1, &this->VAO);
-			return true;
+			this->VAO = NULL;
 		}
-		else
-			return false;
+
 	}
 }

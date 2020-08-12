@@ -29,13 +29,21 @@ namespace Elion
 				if (glewError != GLEW_OK)
 					ELION_ERROR("Glew was uninitialized , check if you installed it correctly!");
 
+				//Global opengl state
 				glEnable(GL_DEPTH_TEST); // This one keeps background objects visible
 				glDepthFunc(GL_LESS);
 				glEnable(GL_TEXTURE_2D);
 				glEnable(GL_LIGHTING);
 
+				//Transparency
 				glEnable(GL_BLEND); // This one helps us to create transparency
 				glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+				//Stencil 
+				glEnable(GL_STENCIL_TEST);
+				glStencilFunc(GL_NOTEQUAL, 1, 0xFF);
+				glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
+				//
 
 				glLineWidth(3); // Thicken lines so we can see 'em clearly
 				Interface::UserInterface::init(this->window, this->gl_context);
@@ -50,7 +58,6 @@ namespace Elion
 	void MainWindow::update()
 	{
 		Interface::UserInterface::render(this->window);
-		Scene::draw();
 	}
 
 

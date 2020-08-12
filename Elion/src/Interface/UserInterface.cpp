@@ -13,12 +13,17 @@ namespace Elion
 		{
 			IMGUI_CHECKVERSION();
 			ImGui::CreateContext();
-			ImGuiIO& io = ImGui::GetIO(); (void)io;
+			ImGuiIO& io = ImGui::GetIO();
 
 			ImGui::StyleColorsDark();
 
 			ImGui_ImplSDL2_InitForOpenGL(window, gl_context);
 			ImGui_ImplOpenGL3_Init("#version 430 core");
+
+			m_MenuBar.init();
+			m_ToolBar.init();
+			m_Properties.init();
+			m_SceneOutliner.init();
 		}
 
 		void UserInterface::begin(SDL_Window* window)
@@ -42,6 +47,11 @@ namespace Elion
 			m_ToolBar.render();
 			m_Properties.render();
 			m_SceneOutliner.render();
+
+			glDisable(GL_STENCIL_TEST);
+			// Non-stencil primitives here
+			Scene::update();
+			Scene::draw();
 
 			end();
 		}

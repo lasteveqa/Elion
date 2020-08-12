@@ -5,7 +5,7 @@ namespace Elion
 {
 	Triangle::Triangle()
 	{
-		
+
 	}
 
 	void Triangle::set_color(const Color& color)
@@ -25,6 +25,8 @@ namespace Elion
 
 	void Triangle::update()
 	{
+
+
 		if (!this->VAO)
 		{
 			float vertices[] = {
@@ -118,14 +120,14 @@ namespace Elion
 		
 	}
 
-	bool Triangle::free_vao()
+
+
+	void Triangle::free()
 	{
 		if (this->VAO)
 		{
 			glDeleteVertexArrays(1, &this->VAO);
-			return true;
+			this->VAO = NULL;
 		}
-		else
-			return false;
 	}
 }

@@ -13,16 +13,7 @@ namespace Elion
 
 
 	class ELION_API OpenGL_API
-	{
-	private:
-
-		
-	
-
-	public:
-		
-		
-		
+	{	
 	};
 
 }

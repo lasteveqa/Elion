@@ -2,7 +2,7 @@
 #include "Core/Core.h"
 #include "Renderer/Shader.h"
 #include "Renderer/Camera.h"
-#include "Renderer/VertexBuffer.h"
+#include "Renderer/VertexBuffer.h" 
 
 namespace Elion
 {
@@ -86,8 +86,13 @@ namespace Elion
 		
 
 		
-		~Primitive()
+		virtual ~Primitive()
 		{
+			if (this->VAO)
+			{
+				glDeleteVertexArrays(1, &this->VAO);
+				this->VAO = NULL;
+			}
 		}
 
 		virtual void set_color(const Color& color){}
@@ -95,6 +100,9 @@ namespace Elion
 		virtual void set_size(const Size& size){}
 		virtual void update(){}
 		virtual void draw(){}
+
+		virtual void free(){}
+
 
 	};
 

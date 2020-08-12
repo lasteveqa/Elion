@@ -18,7 +18,7 @@ namespace Elion
 		void update() override;
 		void draw() override;
 
-		bool free_vao();
+		void free() override;
 	};
 
 }

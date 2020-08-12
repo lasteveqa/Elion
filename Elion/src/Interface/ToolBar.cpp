@@ -27,16 +27,19 @@ namespace Elion
 						
 						Scene::add_primitive(PrimitiveTypes::TRIANGLE);
 						m_PrimitiveTypes.push_back(PrimitiveTypes::TRIANGLE);
+			
 					
 					}
 					if (ImGui::MenuItem("Quad"))
 					{
+						
 						Scene::add_primitive(PrimitiveTypes::QUAD);
 						m_PrimitiveTypes.push_back(PrimitiveTypes::QUAD);
 					}
 					if (ImGui::MenuItem("Round"))
 					{
-						
+						if(!m_PrimitiveTypes.empty())
+						m_PrimitiveTypes.pop_back();
 					}
 					ImGui::EndMenu();
 				}

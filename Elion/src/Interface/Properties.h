@@ -8,8 +8,9 @@ namespace Elion
 		class Properties : public UIComponent
 		{
 		private:
-			float a = 1.0f;
+			float* color;
 		public:
+			void handle_color(float* color);
 			void init() override;
 			void render() override;
 			void clear() override;
