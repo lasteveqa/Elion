@@ -38,11 +38,6 @@ namespace Elion
 				//Transparency
 				glEnable(GL_BLEND); // This one helps us to create transparency
 				glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-				//Stencil 
-				glEnable(GL_STENCIL_TEST);
-				glStencilFunc(GL_NOTEQUAL, 1, 0xFF);
-				glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
 				//
 
 				glLineWidth(3); // Thicken lines so we can see 'em clearly

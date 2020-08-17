@@ -24,6 +24,8 @@ namespace Elion
 			m_ToolBar.init();
 			m_Properties.init();
 			m_SceneOutliner.init();
+
+			
 		}
 
 		void UserInterface::begin(SDL_Window* window)
@@ -46,12 +48,22 @@ namespace Elion
 			m_MenuBar.render();
 			m_ToolBar.render();
 			m_Properties.render();
-			m_SceneOutliner.render();
+			
+
+			
+
+
+		
 
 			glDisable(GL_STENCIL_TEST);
+			glStencilMask(0x00);
 			// Non-stencil primitives here
 			Scene::update();
 			Scene::draw();
+
+			m_SceneOutliner.render();
+
+			
 
 			end();
 		}

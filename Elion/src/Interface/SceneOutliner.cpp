@@ -7,7 +7,7 @@ namespace Elion
 	{
 		void SceneOutliner::init()
 		{
-
+			glEnable(GL_STENCIL_TEST);
 		}
 
 		void SceneOutliner::render()
@@ -15,28 +15,26 @@ namespace Elion
 			ImGui::SetNextWindowSizeConstraints(ImVec2(350.0f, 400.0f), ImVec2(350.0f, 400.0f));
 			ImGui::SetNextWindowPos(ImVec2(this->m_Wprops.size().Width - 360.0f, 40.0f));
 
+
 			if (ImGui::Begin("Scene Outliner"))
 			{
-				//auto style = ImGui::GetStyle();
 
 				ImGui::TextColored(ImVec4(1, 1, 0, 1), "Items");
 
 				if (ImGui::BeginChild("Scrolling"))
 				{
-					for (std::size_t i = 0; i < m_PrimitiveTypes.size(); ++i)
+					for (std::size_t i = 0; i < m_PrimitiveTypes.size(); i++)
 					{
 						
 						switch (m_PrimitiveTypes[i])
 						{
 						case PrimitiveTypes::TRIANGLE:
 							ImGui::Text("Triangle", m_PrimitiveTypes.size());
-							//add_object_to_list("Triangle");
 
 							break;
 
 						case PrimitiveTypes::QUAD:
 							ImGui::Text("Quad", m_PrimitiveTypes.size());
-							//add_object_to_list("Quad");
 
 							break;
 
@@ -45,41 +43,37 @@ namespace Elion
 							break;
 						}
 
+						
+
+						
+						
+						
+					}
+
+					for (std::size_t i = 0; i < m_PrimitiveTypes.size(); i++)
+					{
+						glStencilFunc(GL_ALWAYS, 1, 0xFF);
+						glStencilMask(0xFF);
 
 						if (ImGui::IsItemClicked())
 						{
-							m_StencilTest = Stencil::ON;
+							Selected::set(i);
 						}
 
-						switch (m_StencilTest)
-						{
-						case Stencil::ON:
+						Selected::draw(Scene::get_primitives());
 
-							//glEnable(GL_STENCIL_TEST);
+						glStencilFunc(GL_NOTEQUAL, 0, 0xFF);
+						glStencilMask(0x00);
+						glDisable(GL_DEPTH_TEST);
 
-							//glStencilFunc(GL_ALWAYS, 1, 0xFF);
-							////Scene::clean_all_properties(i);
-							//Scene::set_excepted_primitive(i);
-							//Scene::update_excepted_primitives();
-							//Scene::draw_excepted_primitives();
+						Scene::get_primitives()[i]->set_size(Size(1.01f, 1.01f, 1.01f));
+						glColorMask(255, 255, 0, 255);
 
-							//glStencilFunc(GL_NOTEQUAL, 1, 0xFF);
-							//glDisable(GL_DEPTH_TEST);
-
-							//Scene::clean_all_properties(i);
-							//Scene::get_primitives()[i]->set_size(Size(1.03f, 1.03f, 0.0f));
-							//Scene::get_primitives()[i]->set_color(Color(1.0f, 0.0f, 1.0f, 1.0f));
-							//Scene::update_excepted_primitives();
-							//Scene::draw_excepted_primitives();
-
-							//glEnable(GL_DEPTH_TEST);
-							//break;
-
-						case Stencil::OFF:
-
-							break;
-						}
-						
+						Selected::draw(Scene::get_primitives());
+						glColorMask(255, 255, 255, 0);
+						glStencilMask(0xFF);
+						glStencilFunc(GL_KEEP, 2, 0xFF);
+						glEnable(GL_DEPTH_TEST);
 					}
 					ImGui::EndChild();
 				}

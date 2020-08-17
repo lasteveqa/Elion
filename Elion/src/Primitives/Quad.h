@@ -7,8 +7,6 @@ namespace Elion
 	{
 
 	private:
-
-
 	public:
 		Quad();
 

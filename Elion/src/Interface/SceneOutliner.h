@@ -10,19 +10,12 @@ namespace Elion
 		class SceneOutliner : public UIComponent
 		{
 		private:
-			bool m_SelectedItem = false;
+			bool m_Clicked = false;
 
 			void draw_no_stencil();
 			void draw_stencil();
 			void draw_scaled_version_fo_primitives();
 
-			enum class Stencil
-			{
-				OFF = 0,
-				ON = 1
-			};
-
-			Stencil m_StencilTest;
 
 		public:
 			void init();

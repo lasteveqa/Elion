@@ -26,17 +26,21 @@ namespace Elion
 
 	void Quad::update()
 	{
-	
 		
+		
+	
 		if (!this->VAO)
 		{
 
+			
 			float vertices[] = {
 		 -0.5f, -0.5f, 0.0f, this->color.R , this->color.G , this->color.B , this->color.A,
 		  0.5f, -0.5f, 0.0f, this->color.R , this->color.G , this->color.B , this->color.A,
 		  0.5f,  0.5f, 0.0f, this->color.R , this->color.G , this->color.B , this->color.A,
 		 -0.5f,  0.5f, 0.0f, this->color.R , this->color.G , this->color.B ,  this->color.A
 			};
+
+
 
 			std::string vertexSrc = R"(
 			#version 430 core
@@ -53,7 +57,8 @@ namespace Elion
                 	
 			}
 		)";
-			
+
+
 			std::string fragmentSrc = R"(
 				#version 430 core
 
@@ -63,13 +68,15 @@ namespace Elion
 				void main()
 				{
                    color = v_Color;
+
 				}
         )";
+		
 
 
-
+			
 			uint32_t indices[] = { 0 , 1 , 2 , 2 , 3 , 0 };
-
+			
 			this->SizeIndices = sizeof(indices);
 
 			this->program = this->shader->load_native_GLSL(vertexSrc , fragmentSrc);
@@ -89,9 +96,11 @@ namespace Elion
 			glEnableVertexAttribArray(position_attribute);
 			glVertexAttribPointer(position_attribute, 3, GL_FLOAT, GL_FALSE, 7 * sizeof(float), (void*)(0 * sizeof(float)));
 
+			
 			GLint color_attribute = glGetAttribLocation(program, "a_Color");
 			glEnableVertexAttribArray(color_attribute);
 			glVertexAttribPointer(color_attribute, 4, GL_FLOAT, GL_FALSE, 7 * sizeof(float), (void*)(3 * sizeof(float)));
+
 
 			glBindVertexArray(0);
 			glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -99,17 +108,17 @@ namespace Elion
 			
 		}
 
+	
+		
+
 	}
 
 	void Quad::draw()
 	{
 
-		
-
 		glUseProgram(this->program);
 		
 		glBindVertexArray(VAO);
-
 
 		glm::mat4 scale = glm::mat4(0.5f);
 		
