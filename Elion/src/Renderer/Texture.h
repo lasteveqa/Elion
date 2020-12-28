@@ -30,8 +30,8 @@ namespace Elion
 		
 		bool load_from_file(const std::string& filename);
 
-		void bind();
-		void unbind();
+		void bind() const;
+		void unbind() const;
 	};
 
 

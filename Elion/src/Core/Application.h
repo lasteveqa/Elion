@@ -1,6 +1,5 @@
 #pragma once
 #include "Core/Core.h"
-
 #include "Time.h"
 #include "Events/Event.h"
 #include "Windows/MainWindow.h"

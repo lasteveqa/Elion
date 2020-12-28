@@ -36,23 +36,29 @@ namespace Elion
 				glEnable(GL_LIGHTING);
 
 				//Transparency
-				glEnable(GL_BLEND); // This one helps us to create transparency
-				glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-				//
-
+				//glEnable(GL_BLEND); // This one helps us to create transparency
+				//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+			
 				glLineWidth(3); // Thicken lines so we can see 'em clearly
+
 				Interface::UserInterface::init(this->window, this->gl_context);
 				
 	}
 
 	void MainWindow::render()
 	{
+		Interface::UserInterface::render(this->window);
+
 		SDL_GL_SwapWindow(this->window);
+	}
+
+	void MainWindow::events()
+	{
+
 	}
 
 	void MainWindow::update()
 	{
-		Interface::UserInterface::render(this->window);
 	}
 
 

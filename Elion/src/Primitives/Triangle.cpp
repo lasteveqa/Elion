@@ -22,32 +22,43 @@ namespace Elion
 		this->size = size;
 	}
 
+	void Triangle::set_rotation(const Rotation& rotation)
+	{
+		this->rotation = rotation;
+	}
+
+	void Triangle::set_projection(const Projection& projection)
+	{
+		this->projection = projection;
+	}
+
 
 	void Triangle::update()
 	{
 
-
-		if (!this->VAO)
+		if (!VAO)
 		{
 			float vertices[] = {
-			 -0.5f, -0.5f, 0.0f, this->color.R , this->color.G , this->color.B , this->color.A,
-			  0.5f, -0.5f, 0.0f, this->color.R , this->color.G , this->color.B , this->color.A,
-			  0.0f,  1.0f, 0.0f, this->color.R , this->color.G , this->color.B , this->color.A
+			 -0.5f, -0.5f, 0.0f,
+			  0.5f, -0.5f, 0.0f,
+			  0.0f,  1.0f, 0.0f
 			};
 
 			std::string vertexSrc = R"(
 			#version 430 core
 			
 			layout(location = 0) in vec3 a_Position;
-            layout(location = 1) in vec4 a_Color;
 
+            uniform mat4 scale;
+            uniform mat4 rotate;
             uniform mat4 translate;
+            uniform mat4 projection;
             
             out vec4 v_Color;
 			void main()
 			{
-                v_Color = a_Color;
-				gl_Position = translate *  vec4(a_Position, 1.0);	
+                mat4 MVP = projection * translate * rotate;
+				gl_Position = MVP * scale * vec4(a_Position, 1.0);
     
 			}
 		)";
@@ -57,11 +68,11 @@ namespace Elion
 			
 			layout(location = 0) out vec4 color;
 
-            in vec4 v_Color;
+            uniform vec4 UniformColor;
 
 			void main()
 			{
-				color = v_Color;
+				color = UniformColor;
 			}
 		)";
 
@@ -85,49 +96,70 @@ namespace Elion
 
 			GLint position_attribute = glGetAttribLocation(program, "a_Position");
 			glEnableVertexAttribArray(position_attribute);
-			glVertexAttribPointer(position_attribute, 3, GL_FLOAT, GL_FALSE, 7 * sizeof(float), (void*)(0 * sizeof(float)));
+			glVertexAttribPointer(position_attribute, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)(0 * sizeof(float)));
 
-			GLint color_attribute = glGetAttribLocation(program, "a_Color");
-			glEnableVertexAttribArray(color_attribute);
-			glVertexAttribPointer(color_attribute, 4, GL_FLOAT, GL_FALSE, 7 * sizeof(float), (void*)(3 * sizeof(float)));
 
+			glBindVertexArray(0);
+			glBindBuffer(GL_ARRAY_BUFFER, 0);
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
 		}
+
 	}
 
 	void Triangle::draw()
 	{
-		
 
 		glUseProgram(this->program);
-		
+
 		glBindVertexArray(VAO);
 
-		glm::mat4 scale = glm::mat4(0.5f);
 
-		scale = Elion::Camera::scale(scale, size.X, size.Y, size.Z);
+		GLint ColorUniform = glGetUniformLocation(program, "UniformColor");
 
+		glUniform4f(ColorUniform, color.R, color.G, color.B, color.A);
 
-		glm::mat4 move_matrix = glm::mat4(1.0f);
-		move_matrix = glm::translate(move_matrix, glm::vec3(position.X, position.Y, position.Z)) * scale;
-		this->location = glGetUniformLocation(program, "translate");
-		glUniformMatrix4fv(this->location, 1, GL_FALSE, glm::value_ptr(move_matrix));
+		this->mat_rotate = glm::mat4(1.0f);
+		this->mat_scale = glm::mat4(1.0f);
+		this->mat_view = glm::mat4(1.0f);
+		this->mat_projection = glm::mat4(1.0f);
+		this->mat_model = glm::mat4(1.0f);
+
+		mat_view = glm::translate(glm::mat4(1.0f), glm::vec3(position.X, position.Y, -8.0f));
+		mat_model = glm::translate(glm::mat4(1.0f), glm::vec3(position.X, position.Y, position.Z));
+
+		mat_view = mat_model * mat_view;
+
+		mat_rotate = glm::rotate(glm::mat4(1.0f), glm::radians(rotation.Radians), glm::vec3(rotation.X, rotation.Y, rotation.Z));
+		mat_scale = glm::scale(glm::mat4(1.0f), glm::vec3(size.X, size.Y, size.Z));
+
+		mat_projection = glm::perspective(projection.Radians, (GLfloat)(projection.Width / projection.Height), projection.Near, projection.Far);
+
+		this->ScaleLocation = glGetUniformLocation(program, "scale");
+		this->RotateLocation = glGetUniformLocation(program, "rotate");
+		this->ViewLocation = glGetUniformLocation(program, "translate");
+		this->ProjectionLocation = glGetUniformLocation(program, "projection");
+
+		glUniformMatrix4fv(this->RotateLocation, 1, GL_FALSE, glm::value_ptr(mat_rotate));
+		glUniformMatrix4fv(this->ScaleLocation, 1, GL_FALSE, glm::value_ptr(mat_scale));
+		glUniformMatrix4fv(this->ViewLocation, 1, GL_FALSE, glm::value_ptr(mat_view));
+		glUniformMatrix4fv(this->ProjectionLocation, 1, GL_FALSE, glm::value_ptr(mat_projection));
+
 
 		glDrawElements(GL_TRIANGLES, this->SizeIndices, GL_UNSIGNED_INT, (void*)0);
 
+
 		glUseProgram(0);
 		glBindVertexArray(0);
-		
 	}
 
 
 
 	void Triangle::free()
 	{
-		if (this->VAO)
-		{
-			glDeleteVertexArrays(1, &this->VAO);
-			this->VAO = NULL;
-		}
+		glDeleteProgram(this->program);
+		glDeleteBuffers(1, &VBO);
+		glDeleteBuffers(1, &EBO);
+		glDeleteVertexArrays(1, &VAO);
 	}
 }

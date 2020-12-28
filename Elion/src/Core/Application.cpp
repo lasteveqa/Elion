@@ -22,24 +22,21 @@ namespace Elion
 		{
 			begin_render();
 
+			if(sdl_event.type == SDL_QUIT)
+				set_running(false);
+
 			while (SDL_PollEvent(&sdl_event))
 			{
 				ImGui_ImplSDL2_ProcessEvent(&sdl_event);
-
 				switch (sdl_event.type)
 				{
 				case SDL_QUIT:
 					set_running(false);
 					break;
-				case SDL_KEYDOWN:
-
-					break;
-
-				case SDL_KEYUP:
-
-					break;
 				}
 
+
+				this->m_WindowSwitcher.events();
 			}
 			this->m_WindowSwitcher.update();
 			this->m_WindowSwitcher.render();

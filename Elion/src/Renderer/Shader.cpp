@@ -114,6 +114,8 @@ namespace Elion
 
 	GLuint Shader::load_native_GLSL(const std::string& vertex_shader, const std::string& fragment_shader)
 	{
+		
+
 		GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
 		GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
 
@@ -154,7 +156,6 @@ namespace Elion
 
 
 		// Link the program
-		std::cout << "Linking program..." << std::endl;
 		GLuint ProgramID = glCreateProgram();
 
 		glAttachShader(ProgramID, vertexShader);

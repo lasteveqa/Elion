@@ -9,9 +9,6 @@ namespace Elion
 		
 		class ToolBar : public UIComponent
 		{
-		private:
-			bool TriangleSelected = false;
-			bool QuadSelected = false;
 
 		public:
 			void init() override;

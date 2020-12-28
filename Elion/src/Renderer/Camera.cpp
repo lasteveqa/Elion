@@ -74,6 +74,14 @@ namespace Elion
 	}
 
 
+	glm::mat4& Camera::projection(glm::mat4 matrix, float radians, float width, float height, float _near, float _far)
+	{
+		matrix = glm::perspective(glm::radians(radians), width / height, _near, _far);
+
+		return matrix;
+	}
+
+
 	void Camera::upload_matrices(GLint matrix_location, glm::mat4 matrix_transfromed)
 	{
 		shader->set_uniform_location(matrix_location, matrix_transfromed);

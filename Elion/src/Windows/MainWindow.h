@@ -9,8 +9,8 @@ namespace Elion
 
 	private:
 		const char* WindowName = "Elion Test";
-		const float Width = 1366.0f;
-		const float Height = 768.0f;
+		const float Width = 1000.0f;
+		const float Height = 1000.0f;
 		SDL_Window* window;
 		bool b_vsync = false;
 		SDL_GLContext gl_context;
@@ -19,6 +19,7 @@ namespace Elion
 	public:
 		void init() override;
 		void render() override;
+		void events() override;
 		void update() override;
 		void clear() override;
 

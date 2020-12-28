@@ -4,6 +4,8 @@
 #include "Interface/ToolBar.h"
 #include "Interface/Properties.h"
 #include "Interface/SceneOutliner.h"
+#include "Interface/Options.h"
+#include "Interface/MainScene.h"
 namespace Elion
 {
 
@@ -18,6 +20,8 @@ namespace Elion
 			static ToolBar m_ToolBar;
 			static Properties m_Properties;
 			static SceneOutliner m_SceneOutliner;
+			static Options m_Options;
+			static MainScene m_MainScene;
 			
 		public:
 
@@ -25,6 +29,7 @@ namespace Elion
 			static void begin(SDL_Window* window);
 			static void end();
 			static void render(SDL_Window* window);
+			static void events();
 			static void clear();
 		};
 

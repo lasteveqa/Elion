@@ -42,16 +42,17 @@ namespace Elion
 		glBindTexture(GL_TEXTURE_2D, m_TextureID);
 		glEnable(GL_BLEND);
 		stbi_image_free(data);
+
 		return true;
 	}
 
 
-	void Texture::bind()
+	void Texture::bind() const
 	{
 		glBindTexture(GL_TEXTURE_2D, m_TextureID);
 	}
 
-	void Texture::unbind()
+	void Texture::unbind() const
 	{
 		glBindTexture(GL_TEXTURE_2D, 0);
 	}

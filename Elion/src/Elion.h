@@ -3,7 +3,6 @@
 #include "Core/Text.h"
 #include "Core/Time.h"
 #include "Core/Core.h"
-#include "Core/KeyCode.h"
 #include "Core/Application.h"
 #include "Core/Log.h"
 #include "Core/Input.h"
@@ -23,7 +22,6 @@
 #include "Primitives/Triangle.h"
 #include "Primitives/Quad.h"
 
-#include "Move/Velocity.h"
 
 #include <memory>
 

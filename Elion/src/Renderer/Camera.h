@@ -35,6 +35,7 @@ namespace Elion
 		static glm::mat4& rotate(glm::mat4 matrix , float rotation, float x, float y, float z);
 		static glm::mat4& translate(glm::mat4 matrix, float x, float y, float z);
 		static glm::mat4& scale(glm::mat4 matrix, float x, float y, float z);
+		static glm::mat4& projection(glm::mat4 matrix, float radians, float width, float height, float _near, float _far);
 
 		static void upload_matrices(GLint matrix_location, glm::mat4 matrix_transfromed);
 

@@ -5,9 +5,9 @@ namespace Elion
 {
 	namespace Interface
 	{
+
 		void SceneOutliner::init()
 		{
-			glEnable(GL_STENCIL_TEST);
 		}
 
 		void SceneOutliner::render()
@@ -16,105 +16,88 @@ namespace Elion
 			ImGui::SetNextWindowPos(ImVec2(this->m_Wprops.size().Width - 360.0f, 40.0f));
 
 
+			
 			if (ImGui::Begin("Scene Outliner"))
 			{
-
 				ImGui::TextColored(ImVec4(1, 1, 0, 1), "Items");
 
-				if (ImGui::BeginChild("Scrolling"))
+				ImGui::BeginChild("Scrolling");
+				
+				if (!m_PrimitiveTypes.empty())
 				{
-					for (std::size_t i = 0; i < m_PrimitiveTypes.size(); i++)
+					for (std::size_t i = 0; i < m_PrimitiveTypes.size(); ++i)
 					{
-						
-						switch (m_PrimitiveTypes[i])
-						{
-						case PrimitiveTypes::TRIANGLE:
-							ImGui::Text("Triangle", m_PrimitiveTypes.size());
+					 std::string str_index = "";
 
-							break;
+					 if (m_PrimitiveTypes.size() != m_SetOfProperties.size())
+					 {
+						 m_SetOfProperties.push_back(SetOfPropeties());
+					 }
+					 
+						 if (m_PrimitiveTypes[i] == PrimitiveTypes::TRIANGLE)
+						 {
+							 str_index = std::to_string(i) + ": Triangle";
+							 if (ImGui::Selectable(str_index.c_str()))
+							 {
+								 index = i;
+							 }
+						 }
 
-						case PrimitiveTypes::QUAD:
-							ImGui::Text("Quad", m_PrimitiveTypes.size());
+						 else if (m_PrimitiveTypes[i] == PrimitiveTypes::QUAD)
+						 {
 
-							break;
+							 str_index = std::to_string(i) + ": Quad";
+							 if (ImGui::Selectable(str_index.c_str()))
+							 {
+								 index = i;
+							 }
 
-						case PrimitiveTypes::ROUND:
-							ImGui::Text("Round", m_PrimitiveTypes.size());
-							break;
-						}
+						 }
 
-						
+						 else if (m_PrimitiveTypes[i] == PrimitiveTypes::ROUND)
+						 {
+							 str_index = std::to_string(i) + ": Round";
 
-						
-						
-						
+							 if (ImGui::Selectable(str_index.c_str()))
+							 {
+								 index = i;
+							 }
+						 }
+
+
+						 else if (m_PrimitiveTypes[i] == PrimitiveTypes::CUBE)
+						 {
+							 str_index = std::to_string(i) + ": Cube";
+							 if (ImGui::Selectable(str_index.c_str()))
+							 {
+								 index = i;
+							 }
+						 }
+					 
 					}
-
-					for (std::size_t i = 0; i < m_PrimitiveTypes.size(); i++)
-					{
-						glStencilFunc(GL_ALWAYS, 1, 0xFF);
-						glStencilMask(0xFF);
-
-						if (ImGui::IsItemClicked())
-						{
-							Selected::set(i);
-						}
-
-						Selected::draw(Scene::get_primitives());
-
-						glStencilFunc(GL_NOTEQUAL, 0, 0xFF);
-						glStencilMask(0x00);
-						glDisable(GL_DEPTH_TEST);
-
-						Scene::get_primitives()[i]->set_size(Size(1.01f, 1.01f, 1.01f));
-						glColorMask(255, 255, 0, 255);
-
-						Selected::draw(Scene::get_primitives());
-						glColorMask(255, 255, 255, 0);
-						glStencilMask(0xFF);
-						glStencilFunc(GL_KEEP, 2, 0xFF);
-						glEnable(GL_DEPTH_TEST);
+					
+					if (!m_SetOfProperties.empty())
+					{				
+							m_Scene.set_item_position(m_SetOfProperties[index].position, index);
+							m_Scene.set_item_color(m_SetOfProperties[index].color, index);
+							m_Scene.set_item_size(m_SetOfProperties[index].size, index);
+							m_Scene.set_item_projection(m_SetOfProperties[index].projection, index);
+							m_Scene.set_item_rotation(m_SetOfProperties[index].rotation, index);
 					}
-					ImGui::EndChild();
+					
 				}
+
+			    ImGui::EndChild();				
 
 				ImGui::End();
 			}
 
 
-		
-
-
-
-		}
-
-		void SceneOutliner::draw_no_stencil()
-		{
-
 		}
 
 
-		void SceneOutliner::draw_stencil()
-		{
-			glEnable(GL_STENCIL_TEST);
-			glStencilFunc(GL_ALWAYS, 1, 0xFF);
-			//Stencil Primitives here
-		}
 
 
-		void SceneOutliner::draw_scaled_version_fo_primitives()
-		{
-			glStencilFunc(GL_NOTEQUAL, 1, 0xFF);
-			glDisable(GL_DEPTH_TEST);
-
-			// draw scaled of stencil primitives here
-
-			glEnable(GL_DEPTH_TEST);
-		}
-
-		void SceneOutliner::clear()
-		{
-
-		}
 	}
+
 }

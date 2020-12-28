@@ -5,13 +5,8 @@ namespace Elion
 {
 	
 
-
-
-
-
-
-
-
+  
+	 
 	class WindowCloseEvent : public Event
 	{
 
@@ -20,15 +15,6 @@ namespace Elion
 
 
 	};
-
-
-
-
-
-
-
-
-
 
 	class AppTickEvent : public Event
 	{
@@ -40,15 +26,6 @@ namespace Elion
 	};
 
 
-
-
-
-
-
-
-
-
-
 	class AppUpdateEvent : public Event
 	{
 	public:
@@ -58,17 +35,6 @@ namespace Elion
 
 	};
 
-
-
-
-
-
-
-
-
-
-
-
 	class AppRenderEvent : public Event
 	{
 	public:
@@ -76,6 +42,14 @@ namespace Elion
 		AppRenderEvent() = default;
 
 		
+
+	};
+
+
+
+
+	class ApplicationEvent
+	{
 
 	};
 }

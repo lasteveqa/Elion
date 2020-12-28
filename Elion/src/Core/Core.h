@@ -17,7 +17,10 @@
 #endif;
 
                                        
-                                  
+#define SCENE_XPOSITION 520
+#define SCENE_YPOSITION 100
+#define SCENE_WIDTH 1030
+#define SCENE_HEIGHT 1000
                                         
 
                                 

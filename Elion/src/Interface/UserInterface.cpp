@@ -8,6 +8,8 @@ namespace Elion
 		ToolBar UserInterface::m_ToolBar;
 		Properties UserInterface::m_Properties;
 		SceneOutliner UserInterface::m_SceneOutliner;
+		Options UserInterface::m_Options;
+		MainScene UserInterface::m_MainScene;
 
 		void UserInterface::init(SDL_Window* window, SDL_GLContext gl_context)
 		{
@@ -20,19 +22,25 @@ namespace Elion
 			ImGui_ImplSDL2_InitForOpenGL(window, gl_context);
 			ImGui_ImplOpenGL3_Init("#version 430 core");
 
+			m_MainScene.init();
+
 			m_MenuBar.init();
 			m_ToolBar.init();
 			m_Properties.init();
 			m_SceneOutliner.init();
+			m_Options.init();
+
 
 			
 		}
-
+	
 		void UserInterface::begin(SDL_Window* window)
 		{
 			ImGui_ImplOpenGL3_NewFrame();
+			//ImGuizmo::BeginFrame();
 			ImGui_ImplSDL2_NewFrame(window);
 			ImGui::NewFrame();
+
 		}
 
 		void UserInterface::end()
@@ -45,27 +53,23 @@ namespace Elion
 		{
 			begin(window);
 
+
+			m_MainScene.render();
 			m_MenuBar.render();
 			m_ToolBar.render();
 			m_Properties.render();
-			
 
-			
-
-
-		
-
-			glDisable(GL_STENCIL_TEST);
-			glStencilMask(0x00);
-			// Non-stencil primitives here
-			Scene::update();
-			Scene::draw();
+			m_Options.render();
 
 			m_SceneOutliner.render();
-
 			
-
 			end();
+		}
+
+
+		void UserInterface::events()
+		{
+
 		}
 
 		void UserInterface::clear()

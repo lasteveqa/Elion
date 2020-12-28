@@ -3,22 +3,21 @@
 #include "Renderer/Shader.h"
 #include "Renderer/Camera.h"
 #include "Renderer/VertexBuffer.h" 
+#include "Core/WindowProperties.h"
+#include <math.h>
 
 namespace Elion
 {
-	enum PrimitiveTypes
+	enum class PrimitiveTypes
 	{
 		TRIANGLE = 0,
 		QUAD = 1,
-		ROUND = 2
+		ROUND = 2,
+		CUBE = 3
 	};
 
 
-	struct Velocity
-	{
-		static float Xpos;
-		static float Ypos;
-	};
+	
 
 	struct Color
 	{
@@ -54,6 +53,34 @@ namespace Elion
 		{}
 	};
 
+	struct Rotation
+	{
+		float Radians;
+		float X, Y, Z;
+		Rotation(float radians = 0.0f , float x = 1.0f, float y = 1.0f, float z = 1.0f) :
+			Radians(radians),
+			X(x),
+			Y(y),
+			Z(z)
+		{}
+	};
+
+	struct Projection
+	{
+
+		float Radians;
+		float Width, Height, Near , Far;
+		Projection(float radians = 45.0f, float width = SCENE_WIDTH, float height = SCENE_HEIGHT, float _near = 1.0f , float _far = 100.0f) :
+			Radians(radians),
+			Width(width),
+			Height(height),
+			Near(_near),
+			Far(_far)
+		{
+			
+		}
+	};
+
 
 	class ELION_API Primitive
 	{
@@ -62,48 +89,59 @@ namespace Elion
 	protected:
 
 
-		GLuint VBO, VAO, EBO;
+		GLuint VBO, VAO, EBO, Texture;
 
 		std::shared_ptr<Shader> shader;
 		GLuint program;
-		GLint location;
+
+		GLint location , RotateLocation , ScaleLocation , ModelLocation , ViewLocation , ProjectionLocation;
+
+		glm::mat4 mat_scale, mat_rotate, mat_model, mat_view , mat_projection;
 
 		uint32_t SizeIndices;
 
 		Color color;
 		Position position;
 		Size size;
-
-		bool changes = false;
+		Rotation rotation;
+		Projection projection;
 
 		Primitive() = default;
-		
-		
-	public:
-		//Primitive(PrimitiveType type, std::size_t vertexCount = 0);
-
-	
-		
-
+			
+	public:		
 		
 		virtual ~Primitive()
 		{
-			if (this->VAO)
-			{
-				glDeleteVertexArrays(1, &this->VAO);
-				this->VAO = NULL;
-			}
+			free();
 		}
 
 		virtual void set_color(const Color& color){}
 		virtual void set_position(const Position& position){}
 		virtual void set_size(const Size& size){}
+		virtual void set_rotation(const Rotation& rotation){}
+		virtual void set_projection(const Projection& projection){}
+
+
+		virtual void set_view(glm::mat4 view) { this->mat_view = view; }
+
 		virtual void update(){}
 		virtual void draw(){}
 
 		virtual void free(){}
 
 
+		virtual Color& get_color() { return this->color; }
+		virtual Position& get_position() { return this->position; }
+		virtual Size& get_size() { return this->size; }
+		virtual Rotation& get_rotation() { return this->rotation; }
+		virtual Projection& get_projection() { return this->projection; }
+
+
+		virtual glm::mat4& get_model_mat4() { return this->mat_model; }
+		virtual glm::mat4& get_rotate_mat4() { return this->mat_rotate; }
+		virtual glm::mat4& get_scale_mat4() { return this->mat_scale; }
+		virtual glm::mat4& get_view_mat4() { return this->mat_view; }
+		virtual glm::mat4& get_projection_mat4() { return this->mat_projection; }
 	};
 
 }

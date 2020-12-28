@@ -20,6 +20,7 @@ namespace Elion
 
 		virtual void init(){}
 		virtual void render(){}
+		virtual void events(){}
 		virtual void update(){}
 		virtual void clear(){}
 	};
@@ -41,21 +42,23 @@ namespace Elion
 			this->window->init();
 		}
 
-		void update()
+
+		void events()
 		{
-			if (this->window != nullptr)
-			{
-				this->window->update();
-			}
+			if (this->window)
+				this->window->events();
 		}
 
+		void update()
+		{
+			if (this->window)
+				this->window->update();
+		}
 
 		void render()
 		{
-			if (this->window != nullptr)
-			{
-				this->window->render();
-			}
+			if (this->window)
+				this->window->render();	
 		}
 
 

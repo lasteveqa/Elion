@@ -3,17 +3,30 @@
 namespace Elion
 {
 
-	std::vector<Primitive*> Scene::m_Primitives;
+
+	Scene::Scene()
+	{
+	}
+
 
 	void Scene::add_primitive(PrimitiveTypes pt)
 	{
 		switch (pt)
 		{
 		case PrimitiveTypes::TRIANGLE:
-			m_Primitives.push_back(new Triangle());
+			m_Primitives.push_back(std::make_unique<Triangle>());
 			break;
+
 		case PrimitiveTypes::QUAD:
-			m_Primitives.push_back(new Quad());
+			m_Primitives.push_back(std::make_unique<Quad>());
+			break;
+
+		case PrimitiveTypes::ROUND:
+			m_Primitives.push_back(std::make_unique<Round>());
+			break;
+
+		case PrimitiveTypes::CUBE:
+			m_Primitives.push_back(std::make_unique<Cube>());
 			break;
 		}
 	}
@@ -56,25 +69,87 @@ namespace Elion
 
 
 
+	void Scene::set_rotation(Rotation& rotation)
+	{
+		if (!m_Primitives.empty())
+		{
+			for (std::size_t i = 0; i < m_Primitives.size(); i++)
+			{
+				m_Primitives[i]->set_rotation(rotation);
+			}
+		}
+	}
+
+
+	void Scene::set_projection(Projection& projection)
+	{
+		if (!m_Primitives.empty())
+		{
+			for (std::size_t i = 0; i < m_Primitives.size(); i++)
+			{
+				m_Primitives[i]->set_projection(projection);
+			}
+		}
+	}
+
+
+
+	void Scene::set_item_color(const Color& color, int index)
+	{
+		m_Primitives[index]->set_color(color);
+	}
+
+	void Scene::set_item_size(const Size& size, int index)
+	{
+		m_Primitives[index]->set_size(size);
+	}
+
+	void Scene::set_item_position(const Position& position, int index)
+	{
+		m_Primitives[index]->set_position(position);
+	}
+
+	void Scene::set_item_rotation(const Rotation& rotation, int index)
+	{
+		m_Primitives[index]->set_rotation(rotation);
+	}
+
+	void Scene::set_item_projection(const Projection& projection, int index)
+	{
+		m_Primitives[index]->set_projection(projection);
+	}
+
+
+	void Scene::delete_item(int& index)
+	{
+		m_Primitives[index]->free();
+
+		m_Primitives.erase(m_Primitives.begin() + index);
+	}
+
+
+
 
 	void Scene::update()
 	{
-		if (!m_Primitives.empty())
-		for (std::size_t i = 0; i < m_Primitives.size(); i++)
-		{
-			Selected::except_selected(i);
-			m_Primitives[i]->update();
-		}
+		
+			if (!m_Primitives.empty())
+				for (std::size_t i = 0; i < m_Primitives.size(); ++i)
+				{
+					m_Primitives[i]->update();
+				}
+
+
+			
 	}
 
 	void Scene::draw()
 	{
-		if(!m_Primitives.empty())
-		for (std::size_t i = 0; i < m_Primitives.size(); i++)
-		{
-			Selected::except_selected(i);
-			m_Primitives[i]->draw();
-		}
+			if (!m_Primitives.empty())
+				for (std::size_t i = 0; i < m_Primitives.size(); ++i)
+				{
+					m_Primitives[i]->draw();
+				}
 	}
 
 
@@ -87,6 +162,5 @@ namespace Elion
 
 	void Scene::delete_item_of_primitives(unsigned int index)
 	{
-		delete m_Primitives[index];
 	}
 }

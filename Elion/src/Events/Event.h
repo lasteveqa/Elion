@@ -3,7 +3,8 @@
 #include <iostream>
 #include "Core/Core.h"
 #include "SDL.h"
-
+#include <functional>
+#include "Core/KeyCodes.h"
 
 namespace Elion
 {
