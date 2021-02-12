@@ -41,11 +41,11 @@ namespace Elion
 
 					ImGui::Text("Size");
 					ImGui::PushItemWidth(50);
-					ImGui::InputFloat("X", &this->m_SetOfProperties[index].size.X);
+					ImGui::InputFloat("X", &this->m_SetOfProperties[index].scale.X);
 					ImGui::SameLine(100);
-					ImGui::InputFloat("Y", &this->m_SetOfProperties[index].size.Y);
+					ImGui::InputFloat("Y", &this->m_SetOfProperties[index].scale.Y);
 					ImGui::SameLine(200);
-					ImGui::InputFloat("Z", &this->m_SetOfProperties[index].size.Z);
+					ImGui::InputFloat("Z", &this->m_SetOfProperties[index].scale.Z);
 
 
 					ImGui::Text("Rotation");

@@ -1,6 +1,7 @@
 #pragma once
 #include "Core/Core.h"
 #include "imgui.h"
+#include <chrono>
 #include "imguizmo/ImGuizmo.h"
 #include "imgui/examples/imgui_impl_sdl.h"
 #include "imgui/examples/imgui_impl_opengl3.h"
@@ -14,10 +15,15 @@ namespace Elion
 	{
 		enum { SINGLEUPDATE, MULTIUPDATE };
 
+		struct SetOfMatrices
+		{
+
+		};
+
 		struct SetOfPropeties
 		{
 			Color color;
-			Size size;
+			Scale scale;
 			Position position;
 			Rotation rotation;
 			Projection projection;
@@ -26,16 +32,9 @@ namespace Elion
 		class UIComponent
 		{
 		protected:
-			//Primitive Types required for Scene Outliner window
-
 			static std::vector<PrimitiveTypes> m_PrimitiveTypes;
 			static std::vector<SetOfPropeties> m_SetOfProperties;
 
-			static Color m_Color;
-			static Size m_Size;
-			static Position m_Position;
-			static Rotation m_Rotation;
-			static Projection m_Projection;
 
 			static Scene m_Scene;
 

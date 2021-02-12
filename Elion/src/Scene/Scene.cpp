@@ -44,13 +44,13 @@ namespace Elion
 
 
 
-	void Scene::set_size(Size& size)
+	void Scene::set_scale(Scale& size)
 	{
 		if (!m_Primitives.empty())
 		{
 			for (std::size_t i = 0; i < m_Primitives.size(); i++)
 			{
-				m_Primitives[i]->set_size(size);
+				m_Primitives[i]->set_scale(size);
 			}
 		}
 	}
@@ -99,9 +99,9 @@ namespace Elion
 		m_Primitives[index]->set_color(color);
 	}
 
-	void Scene::set_item_size(const Size& size, int index)
+	void Scene::set_item_scale(const Scale& scale, int index)
 	{
-		m_Primitives[index]->set_size(size);
+		m_Primitives[index]->set_scale(scale);
 	}
 
 	void Scene::set_item_position(const Position& position, int index)

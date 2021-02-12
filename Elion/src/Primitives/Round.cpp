@@ -3,11 +3,6 @@
 
 namespace Elion
 {
-	Round::Round()
-	{
-
-
-	}
 
 	void Round::set_color(const Color& color)
 	{
@@ -19,9 +14,9 @@ namespace Elion
 		this->position = position;
 	}
 
-	void Round::set_size(const Size& size)
+	void Round::set_scale(const Scale& scale)
 	{
-		this->size = size;
+		this->scale = scale;
 	}
 
 	void Round::set_rotation(const Rotation& rotation)
@@ -39,6 +34,7 @@ namespace Elion
 	{
 		if (!VAO)
 		{
+			
 			for (int i = 0; i < 100; ++i)
 			{
 			
@@ -93,6 +89,8 @@ namespace Elion
 			glCreateVertexArrays(1, &VAO);
 			glBindVertexArray(VAO);
 
+
+
 			GLint position_attribute = glGetAttribLocation(program, "a_Position");
 			glEnableVertexAttribArray(position_attribute);
 			glVertexAttribPointer(position_attribute, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)(0 * sizeof(float)));
@@ -114,27 +112,21 @@ namespace Elion
 
 		glBindVertexArray(VAO);
 
-		this->mat_rotate = glm::mat4(1.0f);
-		this->mat_scale = glm::mat4(1.0f);
-		this->mat_view = glm::mat4(1.0f);
-		this->mat_projection = glm::mat4(1.0f);
-		this->mat_model = glm::mat4(1.0f);
-
 		GLint ColorUniform = glGetUniformLocation(program, "UniformColor");
 
 		glUniform4f(ColorUniform, color.R, color.G, color.B, color.A);
 
-
+		mat_view = glm::mat4(1.0f);
 		//Position and view
-		mat_view = glm::translate(glm::mat4(1.0f), glm::vec3(position.X, position.Y, -8.0f));
-		mat_model = glm::translate(glm::mat4(1.0f), glm::vec3(position.X, position.Y, position.Z));
+		mat_camera_view = glm::translate(glm::mat4(1.0f), glm::vec3(this->m_Camera.first.X, this->m_Camera.first.Y, this->m_Camera.first.Z));
+		mat_view = glm::translate(glm::mat4(1.0f), glm::vec3(position.X, position.Y, position.Z));
 
-		mat_view = mat_model * mat_view;
+		mat_camera_view = mat_view * mat_camera_view;
 
 		mat_rotate = glm::rotate(glm::mat4(1.0f), glm::radians(rotation.Radians), glm::vec3(rotation.X, rotation.Y, rotation.Z));
-		mat_scale = glm::scale(glm::mat4(1.0f), glm::vec3(size.X, size.Y, size.Z));
+		mat_scale = glm::scale(glm::mat4(1.0f), glm::vec3(scale.X, scale.Y, scale.Z));
 
-		mat_projection = glm::perspective(projection.Radians, (GLfloat)(projection.Width / projection.Height), projection.Near, projection.Far);
+		mat_projection = glm::perspective(projection.Radians, (GLfloat)(SCENE_WIDTH / SCENE_HEIGHT), projection.Near, projection.Far);
 
 		this->ScaleLocation = glGetUniformLocation(program, "scale");
 		this->RotateLocation = glGetUniformLocation(program, "rotate");
@@ -143,11 +135,11 @@ namespace Elion
 
 		glUniformMatrix4fv(this->RotateLocation, 1, GL_FALSE, glm::value_ptr(mat_rotate));
 		glUniformMatrix4fv(this->ScaleLocation, 1, GL_FALSE, glm::value_ptr(mat_scale));
-		glUniformMatrix4fv(this->ViewLocation, 1, GL_FALSE, glm::value_ptr(mat_view));
+		glUniformMatrix4fv(this->ViewLocation, 1, GL_FALSE, glm::value_ptr(mat_camera_view));
 		glUniformMatrix4fv(this->ProjectionLocation, 1, GL_FALSE, glm::value_ptr(mat_projection));
 
 
-		glDrawArrays(GL_TRIANGLE_FAN, 0 , this->vertices.size());
+		glDrawArrays(GL_LINE_LOOP, 0 , this->vertices.size());
 
 
 		glUseProgram(0);
@@ -161,6 +153,7 @@ namespace Elion
 
 	void Round::free()
 	{
+		this->vertices.clear();
 		glDeleteProgram(this->program);
 		glDeleteBuffers(1, &VBO);
 		glDeleteVertexArrays(1, &VAO);

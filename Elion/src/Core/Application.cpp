@@ -22,9 +22,6 @@ namespace Elion
 		{
 			begin_render();
 
-			if(sdl_event.type == SDL_QUIT)
-				set_running(false);
-
 			while (SDL_PollEvent(&sdl_event))
 			{
 				ImGui_ImplSDL2_ProcessEvent(&sdl_event);

@@ -32,7 +32,7 @@ namespace Elion
 				//Global opengl state
 				glEnable(GL_DEPTH_TEST); // This one keeps background objects visible
 				glDepthFunc(GL_LESS);
-				glEnable(GL_TEXTURE_2D);
+				//glEnable(GL_TEXTURE_2D);
 				glEnable(GL_LIGHTING);
 
 				//Transparency

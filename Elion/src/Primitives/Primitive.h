@@ -4,7 +4,9 @@
 #include "Renderer/Camera.h"
 #include "Renderer/VertexBuffer.h" 
 #include "Core/WindowProperties.h"
+#include "Scene/SceneCamera.h"
 #include <math.h>
+
 
 namespace Elion
 {
@@ -43,10 +45,10 @@ namespace Elion
 		{}
 	};
 
-	struct Size
+	struct Scale
 	{
 		float X, Y, Z;
-		Size(float x = 1.0f, float y = 1.0f, float z = 0.0f) :
+		Scale(float x = 1.0f, float y = 1.0f, float z = 1.0f) :
 			X(x),
 			Y(y),
 			Z(z)
@@ -82,8 +84,22 @@ namespace Elion
 	};
 
 
+	//Custom Primitive Object
+	struct PObject
+	{
+		GLuint VBO, VAO, EBO, Texture, Program;
+		std::shared_ptr<Shader> shader;
+	};
+
+	template<class T, class N, class K>
+	struct CameraView { T first; N second; K third; };
+
+
 	class ELION_API Primitive
 	{
+
+
+
 
 
 	protected:
@@ -94,35 +110,40 @@ namespace Elion
 		std::shared_ptr<Shader> shader;
 		GLuint program;
 
-		GLint location , RotateLocation , ScaleLocation , ModelLocation , ViewLocation , ProjectionLocation;
+		GLint location , RotateLocation , ScaleLocation , Translate , ViewLocation , ProjectionLocation;
 
-		glm::mat4 mat_scale, mat_rotate, mat_model, mat_view , mat_projection;
+		glm::mat4 transform, mat_scale, mat_rotate, mat_view, mat_camera_view , mat_projection , mat_camera_rotate;
 
 		uint32_t SizeIndices;
 
 		Color color;
 		Position position;
-		Size size;
+		Scale scale;
 		Rotation rotation;
 		Projection projection;
+
+		WindowProperties m_WProps;
+		
+
+		CameraView<Position, Rotation, Scale> m_Camera;
 
 		Primitive() = default;
 			
 	public:		
 		
-		virtual ~Primitive()
+		~Primitive()
 		{
 			free();
 		}
 
-		virtual void set_color(const Color& color){}
-		virtual void set_position(const Position& position){}
-		virtual void set_size(const Size& size){}
-		virtual void set_rotation(const Rotation& rotation){}
-		virtual void set_projection(const Projection& projection){}
+		virtual void set_color(const Color& color) = 0;
+		virtual void set_position(const Position& position) = 0;
+		virtual void set_scale(const Scale& scale) = 0;
+		virtual void set_rotation(const Rotation& rotation) = 0;
+		virtual void set_projection(const Projection& projection) = 0;
 
 
-		virtual void set_view(glm::mat4 view) { this->mat_view = view; }
+		virtual void set_view(glm::mat4 view) { this->mat_camera_view = view; }
 
 		virtual void update(){}
 		virtual void draw(){}
@@ -132,16 +153,18 @@ namespace Elion
 
 		virtual Color& get_color() { return this->color; }
 		virtual Position& get_position() { return this->position; }
-		virtual Size& get_size() { return this->size; }
+		virtual Scale& get_scale() { return this->scale; }
 		virtual Rotation& get_rotation() { return this->rotation; }
 		virtual Projection& get_projection() { return this->projection; }
 
 
-		virtual glm::mat4& get_model_mat4() { return this->mat_model; }
+		virtual glm::mat4& get_transform() { return this->transform; }
 		virtual glm::mat4& get_rotate_mat4() { return this->mat_rotate; }
 		virtual glm::mat4& get_scale_mat4() { return this->mat_scale; }
-		virtual glm::mat4& get_view_mat4() { return this->mat_view; }
+		virtual glm::mat4& get_view_mat4() { return this->mat_camera_view; }
 		virtual glm::mat4& get_projection_mat4() { return this->mat_projection; }
+
+		virtual CameraView<Position, Rotation, Scale>& get_camera() { return this->m_Camera; }
 	};
 
 }

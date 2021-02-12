@@ -27,6 +27,10 @@ namespace Elion
 					{
 
 					}
+					if (ImGui::MenuItem("Exit"))
+					{
+						
+					}
 					ImGui::EndMenu();
 				}
 				if (ImGui::BeginMenu("Edit"))

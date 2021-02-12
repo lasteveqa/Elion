@@ -67,6 +67,5 @@ namespace Elion
 
 #define ReleaseMatrices() Elion::Camera::release_matrices()
 
-#define Program Elion::Camera::get_program()
 
 

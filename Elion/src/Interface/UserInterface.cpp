@@ -8,7 +8,6 @@ namespace Elion
 		ToolBar UserInterface::m_ToolBar;
 		Properties UserInterface::m_Properties;
 		SceneOutliner UserInterface::m_SceneOutliner;
-		Options UserInterface::m_Options;
 		MainScene UserInterface::m_MainScene;
 
 		void UserInterface::init(SDL_Window* window, SDL_GLContext gl_context)
@@ -28,8 +27,6 @@ namespace Elion
 			m_ToolBar.init();
 			m_Properties.init();
 			m_SceneOutliner.init();
-			m_Options.init();
-
 
 			
 		}
@@ -53,15 +50,11 @@ namespace Elion
 		{
 			begin(window);
 
-
-			m_MainScene.render();
 			m_MenuBar.render();
 			m_ToolBar.render();
-			m_Properties.render();
-
-			m_Options.render();
-
 			m_SceneOutliner.render();
+			m_Properties.render();
+			m_MainScene.render();
 			
 			end();
 		}

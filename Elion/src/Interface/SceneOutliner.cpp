@@ -73,18 +73,17 @@ namespace Elion
 								 index = i;
 							 }
 						 }
-					 
+
 					}
 					
 					if (!m_SetOfProperties.empty())
 					{				
 							m_Scene.set_item_position(m_SetOfProperties[index].position, index);
 							m_Scene.set_item_color(m_SetOfProperties[index].color, index);
-							m_Scene.set_item_size(m_SetOfProperties[index].size, index);
+							m_Scene.set_item_scale(m_SetOfProperties[index].scale, index);
 							m_Scene.set_item_projection(m_SetOfProperties[index].projection, index);
 							m_Scene.set_item_rotation(m_SetOfProperties[index].rotation, index);
 					}
-					
 				}
 
 			    ImGui::EndChild();				

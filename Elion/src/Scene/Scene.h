@@ -30,14 +30,14 @@ namespace Elion
 		void add_primitive(PrimitiveTypes pt);
 		
 		void set_color(Color& color);
-		void set_size(Size& size);
+		void set_scale(Scale& size);
 		void set_position(Position& position);
 		void set_rotation(Rotation& rotation);
 		void set_projection(Projection& projection);
 
 		//
 		void set_item_color(const Color& color , int index);
-		void set_item_size(const Size& size, int index);
+		void set_item_scale(const Scale& scale, int index);
 		void set_item_position(const Position& position, int index);
 		void set_item_rotation(const Rotation& rotation, int index);
 		void set_item_projection(const Projection& projection, int index);
