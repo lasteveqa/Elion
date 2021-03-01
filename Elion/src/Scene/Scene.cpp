@@ -81,6 +81,8 @@ namespace Elion
 	}
 
 
+
+
 	void Scene::set_projection(Projection& projection)
 	{
 		if (!m_Primitives.empty())

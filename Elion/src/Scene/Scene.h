@@ -10,6 +10,7 @@
 
 namespace Elion
 {
+	
 	class Scene
 	{
 	private:

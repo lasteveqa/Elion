@@ -114,7 +114,7 @@ namespace Elion
 
 		glUniform4f(ColorUniform, color.R, color.G, color.B, color.A);
 
-		mat_camera_view = glm::translate(glm::mat4(1.0f), glm::vec3(this->m_Camera.first.X, this->m_Camera.first.Y, this->m_Camera.first.Z));
+	//	mat_camera_view = glm::translate(glm::mat4(1.0f), glm::vec3(this->m_Camera.eye.x, this->m_Camera.eye.y, this->m_Camera.eye.z));
 		mat_view = glm::translate(glm::mat4(1.0f), glm::vec3(position.X, position.Y, position.Z));
 
 		mat_camera_view = mat_view * mat_camera_view;

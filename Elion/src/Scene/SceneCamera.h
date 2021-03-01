@@ -1,32 +1,37 @@
 #pragma once
-#ifndef __SCENECAMERA_H__
-#define __SCENECAMERA_H__
+#include <string>
+#include "GL/glew.h"
 #include "glm/glm.hpp"
 #include "glm/gtx/transform.hpp"
 #include "glm/gtc/type_ptr.hpp"
 #include "glm/gtx/compatibility.hpp"
+#include "Primitives/Primitive.h"
 
 namespace Elion
 {
-
-
-	class SceneCamera
+	class Cam
 	{
+
 	private:
 
-		glm::mat4 m_CameraView;
+		static glm::mat4 CameraMatrix;
+		static glm::vec3 Up;
+		static glm::vec3 Eye;
+		static glm::vec3 Center;
 
 	public:
+		
 
-		SceneCamera(glm::vec3 pos, glm::vec3 view, glm::vec3 up);
-		~SceneCamera() {}
+		//glGetUniformLocation and glUniformMatrix4fv
+		static void set_camera(const std::string& uniform, GLuint program);
+		//static glm::mat4& zoom_camera(const Projection& projection, float Radians);
 
-		glm::mat4 get_camera_view()
-		{
-			return this->m_CameraView;
-		}
+		static void render();
+
+		static inline glm::mat4& get_matrix() { return CameraMatrix; }
+		static inline glm::vec3& get_up() { return Up; }
+		static inline glm::vec3& get_eye() { return Eye; }
+		static inline glm::vec3& get_center() { return Center; }
 	};
-
+	
 }
-
-#endif;

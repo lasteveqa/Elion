@@ -91,8 +91,8 @@ namespace Elion
 		std::shared_ptr<Shader> shader;
 	};
 
-	template<class T, class N, class K>
-	struct CameraView { T first; N second; K third; };
+	
+
 
 
 	class ELION_API Primitive
@@ -124,8 +124,6 @@ namespace Elion
 
 		WindowProperties m_WProps;
 		
-
-		CameraView<Position, Rotation, Scale> m_Camera;
 
 		Primitive() = default;
 			
@@ -163,8 +161,6 @@ namespace Elion
 		virtual glm::mat4& get_scale_mat4() { return this->mat_scale; }
 		virtual glm::mat4& get_view_mat4() { return this->mat_camera_view; }
 		virtual glm::mat4& get_projection_mat4() { return this->mat_projection; }
-
-		virtual CameraView<Position, Rotation, Scale>& get_camera() { return this->m_Camera; }
 	};
 
 }

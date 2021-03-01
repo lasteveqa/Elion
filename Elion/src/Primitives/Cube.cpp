@@ -25,6 +25,8 @@ namespace Elion
 		this->rotation = rotation;
 	}
 
+	
+
 
 	void Cube::set_projection(const Projection& projection)
 	{
@@ -166,7 +168,6 @@ namespace Elion
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 			
 
-			
 		}
 	}
 
@@ -189,30 +190,26 @@ namespace Elion
 
 			GLint LightPosUniform = glGetUniformLocation(program, "LightPos");
 
-			glUniform3f(LightPosUniform, 1.0f, 1.0f, 8.0f);
+			glUniform3f(LightPosUniform, -8.0f, 8.0f, -8.0f);
 		
 			mat_projection = glm::mat4(1.0f);
-			mat_projection = glm::perspective(projection.Radians, (GLfloat)(SCENE_WIDTH / SCENE_HEIGHT), projection.Near, projection.Far);
+			mat_projection = glm::perspective(glm::radians(projection.Radians), (GLfloat)(SCENE_WIDTH / SCENE_HEIGHT), projection.Near, projection.Far);
 
 			transform = glm::mat4(1.0f);
 			transform = glm::translate(transform, glm::vec3(position.X, position.Y, position.Z));
-			transform = glm::rotate(transform, glm::radians(rotation.Radians), glm::vec3(rotation.X, rotation.Y, rotation.Z));
 			transform = glm::scale(transform, glm::vec3(scale.X, scale.Y, scale.Z));
+			transform = glm::rotate(transform, glm::radians(rotation.Radians), glm::vec3(rotation.X, rotation.Y, rotation.Z));
 
-			mat_camera_view = glm::mat4(1.0f);
-			mat_camera_view = glm::lookAt(glm::vec3(this->m_Camera.first.X, this->m_Camera.first.Y, this->m_Camera.first.Z + 8.0f),
-				glm::vec3(this->m_Camera.second.X, this->m_Camera.second.Y, this->m_Camera.second.Z),
-				glm::vec3(0.0f, 1.0f, 0.0f));
-
+			Cam::render();
 	
-
 		this->Translate = glGetUniformLocation(program, "transform");
-		this->ViewLocation = glGetUniformLocation(program, "cameraView");
 		this->ProjectionLocation = glGetUniformLocation(program, "projection");
 
 		glUniformMatrix4fv(this->Translate, 1, GL_FALSE, glm::value_ptr(transform));
-		glUniformMatrix4fv(this->ViewLocation, 1, GL_FALSE, glm::value_ptr(mat_camera_view));
 		glUniformMatrix4fv(this->ProjectionLocation, 1, GL_FALSE, glm::value_ptr(mat_projection));
+
+		//Setting Camera
+		Cam::set_camera("cameraView", this->program);
 
 		glDrawElements(GL_TRIANGLE_STRIP, this->SizeIndices, GL_UNSIGNED_SHORT, NULL);
 		glDrawElements(GL_TRIANGLE_STRIP, this->SizeIndices, GL_UNSIGNED_INT, (void*)0);

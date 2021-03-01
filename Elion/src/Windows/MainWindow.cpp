@@ -39,7 +39,7 @@ namespace Elion
 				//glEnable(GL_BLEND); // This one helps us to create transparency
 				//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 			
-				glLineWidth(3); // Thicken lines so we can see 'em clearly
+				glLineWidth(2); // Thicken lines so we can see 'em clearly
 
 				Interface::UserInterface::init(this->window, this->gl_context);
 				

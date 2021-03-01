@@ -24,6 +24,7 @@ namespace Elion
 		this->rotation = rotation;
 	}
 
+
 	void Round::set_projection(const Projection& projection)
 	{
 		this->projection = projection;
@@ -118,7 +119,7 @@ namespace Elion
 
 		mat_view = glm::mat4(1.0f);
 		//Position and view
-		mat_camera_view = glm::translate(glm::mat4(1.0f), glm::vec3(this->m_Camera.first.X, this->m_Camera.first.Y, this->m_Camera.first.Z));
+		//mat_camera_view = glm::translate(glm::mat4(1.0f), glm::vec3(this->m_Camera.eye.x, this->m_Camera.eye.y, this->m_Camera.eye.z));
 		mat_view = glm::translate(glm::mat4(1.0f), glm::vec3(position.X, position.Y, position.Z));
 
 		mat_camera_view = mat_view * mat_camera_view;

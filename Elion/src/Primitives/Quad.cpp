@@ -23,6 +23,8 @@ namespace Elion
 		this->rotation = rotation;
 	}
 
+
+
 	void Quad::set_projection(const Projection& projection)
 	{
 		this->projection = projection;
@@ -50,16 +52,14 @@ namespace Elion
 			
 			layout(location = 0) in vec3 a_Position;
 
-            uniform mat4 scale;
-            uniform mat4 rotate;
-            uniform mat4 translate;
+            uniform mat4 transform;
             uniform mat4 projection;
+            uniform mat4 cameraView;
 
-            out vec4 v_Color;
 			void main()
 			{
-                mat4 MVP = projection * translate * rotate;
-				gl_Position = MVP * scale * vec4(a_Position, 1.0) ;
+                mat4 MVP = projection * cameraView * transform;
+				gl_Position = MVP * vec4(a_Position, 1.0);
                 	
 			}
 		)";
@@ -130,25 +130,28 @@ namespace Elion
 
 		glUniform4f(ColorUniform, color.R, color.G, color.B, color.A);
 
-		mat_camera_view = glm::translate(glm::mat4(1.0f), glm::vec3(this->m_Camera.first.X, this->m_Camera.first.Y, this->m_Camera.first.Z));
-		mat_view = glm::translate(glm::mat4(1.0f), glm::vec3(position.X, position.Y, position.Z));
+		mat_projection = glm::mat4(1.0f);
+		mat_projection = glm::perspective(projection.Radians, (GLfloat)(SCENE_WIDTH / SCENE_HEIGHT), projection.Near, projection.Far);
 
-		mat_camera_view = mat_view * mat_camera_view;
-	
-		mat_rotate = glm::rotate(glm::mat4(1.0f), glm::radians(rotation.Radians), glm::vec3(rotation.X, rotation.Y, rotation.Z));
-		mat_scale = glm::scale(glm::mat4(1.0f), glm::vec3(scale.X, scale.Y, scale.Z));
-		
-		mat_projection = glm::perspective(projection.Radians  , (GLfloat)(SCENE_WIDTH / SCENE_HEIGHT), projection.Near, projection.Far);
+		transform = glm::mat4(1.0f);
+		transform = glm::translate(transform, glm::vec3(position.X, position.Y, position.Z));
+		transform = glm::scale(transform, glm::vec3(scale.X, scale.Y, scale.Z));
+		transform = glm::rotate(transform, glm::radians(rotation.Radians), glm::vec3(rotation.X, rotation.Y, rotation.Z));
 
-		this->ScaleLocation = glGetUniformLocation(program, "scale");
-		this->RotateLocation = glGetUniformLocation(program, "rotate");
-		this->ViewLocation = glGetUniformLocation(program, "translate");
+		/*mat_camera_view = glm::mat4(1.0f);
+		mat_camera_view = glm::lookAt(glm::vec3(this->m_Camera.eye.x, this->m_Camera.eye.y, this->m_Camera.eye.z + 1.0f),
+			glm::vec3(this->m_Camera.center.x, this->m_Camera.center.y, this->m_Camera.center.z),
+			glm::vec3(this->m_Camera.up.x, this->m_Camera.up.y, this->m_Camera.up.z));*/
+
+
+
+		this->Translate = glGetUniformLocation(program, "transform");
+		this->ViewLocation = glGetUniformLocation(program, "cameraView");
 		this->ProjectionLocation = glGetUniformLocation(program, "projection");
 
-		    glUniformMatrix4fv(this->RotateLocation, 1, GL_FALSE, glm::value_ptr(mat_rotate));
-		    glUniformMatrix4fv(this->ScaleLocation, 1, GL_FALSE, glm::value_ptr(mat_scale));
-			glUniformMatrix4fv(this->ViewLocation, 1, GL_FALSE, glm::value_ptr(mat_camera_view));
-			glUniformMatrix4fv(this->ProjectionLocation, 1, GL_FALSE, glm::value_ptr(mat_projection));
+		glUniformMatrix4fv(this->Translate, 1, GL_FALSE, glm::value_ptr(transform));
+		glUniformMatrix4fv(this->ViewLocation, 1, GL_FALSE, glm::value_ptr(mat_camera_view));
+		glUniformMatrix4fv(this->ProjectionLocation, 1, GL_FALSE, glm::value_ptr(mat_projection));
 		
 
 		glDrawElements(GL_TRIANGLES, this->SizeIndices, GL_UNSIGNED_INT, (void*)0);

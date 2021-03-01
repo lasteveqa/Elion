@@ -82,6 +82,7 @@ namespace Elion
 							m_Scene.set_item_color(m_SetOfProperties[index].color, index);
 							m_Scene.set_item_scale(m_SetOfProperties[index].scale, index);
 							m_Scene.set_item_projection(m_SetOfProperties[index].projection, index);
+						
 							m_Scene.set_item_rotation(m_SetOfProperties[index].rotation, index);
 					}
 				}
