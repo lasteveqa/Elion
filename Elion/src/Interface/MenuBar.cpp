@@ -29,7 +29,7 @@ namespace Elion
 					}
 					if (ImGui::MenuItem("Exit"))
 					{
-						
+						sdl_event.type = SDL_QUIT;
 					}
 					ImGui::EndMenu();
 				}

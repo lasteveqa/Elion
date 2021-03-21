@@ -1,5 +1,5 @@
 #include "Interface/MainScene.h"
-
+#include "Windows/MainWindow.h"
 namespace Elion
 {
 	namespace Interface
@@ -52,8 +52,8 @@ namespace Elion
 		 1.0f, -1.0f,  1.0f
 			};
 
-			this->m_Skybox = std::make_unique<PObject>();
-			this->m_Skybox->Program = this->m_Skybox->shader->load_GLSL("Shaders/skybox.vs", "Shaders/skybox.fs");
+			this->m_Skybox = std::make_unique<Entity>();
+			this->m_Skybox->Program = m_Skybox->shader->load_GLSL("Shaders/skybox.vs", "Shaders/skybox.fs");
 			
 			glCreateBuffers(1, &this->m_Skybox->VBO);
 			glBindBuffer(GL_ARRAY_BUFFER, this->m_Skybox->VBO);
@@ -80,6 +80,7 @@ namespace Elion
 			glVertexAttribPointer(position_attribute, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)(0 * sizeof(float)));
 
 			this->m_Mesh.init();
+			this->obj.loadOBJ("img/sphere.obj");
 		}
 
 		void MainScene::render()
@@ -144,8 +145,8 @@ namespace Elion
 
 			
 
-			if (is_mouse_in_scene())
-			{
+			//if (is_mouse_in_scene())
+			//{
 			
 				rotate_skybox();
 
@@ -165,14 +166,19 @@ namespace Elion
 					//
 				}
 
-			}
-			
+			//}
+				
+
+				obj.update();
+				obj.draw();
 			
 			m_Scene.update();
 			m_Scene.draw();
 
 
 			this->m_Mesh.draw();
+
+			
 		}
 
 		bool MainScene::rotate_camera()
@@ -199,7 +205,7 @@ namespace Elion
 		{
 			for (std::size_t i = 0; i < this->m_SetOfProperties.size(); ++i)
 			{
-				Cam::get_eye() +=  this->m_CameraSpeed * Cam::get_center();
+				Cam::get_eye() +=  this->m_CameraSpeed * Cam::get_center() / 10.0f;
 			}
 			return true;
 			this->m_ButtonNumber = TRANSLATION;
@@ -208,7 +214,7 @@ namespace Elion
 	    {
 		    for (std::size_t i = 0; i < this->m_SetOfProperties.size(); ++i)
 		    {
-				Cam::get_eye() += -this->m_CameraSpeed * Cam::get_center();
+				Cam::get_eye() += -this->m_CameraSpeed * Cam::get_center() / 10.0f;
 		    }
 			return true;
 		this->m_ButtonNumber = TRANSLATION;
@@ -219,7 +225,7 @@ namespace Elion
 			for (std::size_t i = 0; i < this->m_SetOfProperties.size(); ++i)
 			{
 				glm::vec3 strafeDirection = glm::cross(Cam::get_center(), Cam::get_up());
-				Cam::get_eye() += -this->m_CameraSpeed * strafeDirection;
+				Cam::get_eye() += -this->m_CameraSpeed * strafeDirection / 10.0f;
 			}
 			return true;
 			this->m_ButtonNumber = TRANSLATION;
@@ -229,7 +235,7 @@ namespace Elion
 			for (std::size_t i = 0; i < this->m_SetOfProperties.size(); ++i)
 			{
 				glm::vec3 strafeDirection = glm::cross(Cam::get_center(), Cam::get_up());
-				Cam::get_eye() += this->m_CameraSpeed * strafeDirection;
+				Cam::get_eye() += this->m_CameraSpeed * strafeDirection / 10.0f;
 			}
 			return true;
 			this->m_ButtonNumber = TRANSLATION;
@@ -321,7 +327,7 @@ namespace Elion
 		if (SDL_GetMouseState(NULL, NULL) & SDL_BUTTON(SDL_BUTTON_RIGHT))
 		{
 
-			float xoffset = this->m_Offset.X * this->m_CameraSpeed;
+			/*float xoffset = this->m_Offset.X * this->m_CameraSpeed;
 			float yoffset = this->m_Offset.Y * this->m_CameraSpeed;
 
 			yaw += xoffset;
@@ -330,21 +336,48 @@ namespace Elion
 			if (pitch > 89.0f)
 				pitch = 89.0f;
 			if (pitch < -89.0f)
-				pitch = -89.0f;
+				pitch = -89.0f;*/
 			
-		    glm::vec3 direction = glm::vec3(Cam::get_center());
+		  /* glm::vec3 direction = glm::vec3(1.0f);
 			direction.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
 			direction.y = sin(glm::radians(pitch));
 			direction.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
-			Cam::get_center() = direction;
+			Cam::get_center() = direction;*/
 
-			
-				/*glm::vec3 toRotateAround = glm::cross(Cam::get_center(), Cam::get_up());
+			if (!this->m_OutOfScene)
+			{
+				glm::vec3 toRotateAround = glm::cross(Cam::get_center(), Cam::get_up());
 
 				glm::mat3 rotator = glm::rotate(-m_Offset.X * this->m_CameraSpeed / 100.0f, Cam::get_up()) * glm::rotate(m_Offset.Y * this->m_CameraSpeed / 100.0f, toRotateAround);
 
-				Cam::get_center() = rotator * Cam::get_center();*/
+				Cam::get_center() = rotator * Cam::get_center();
+			}
 
+
+			this->m_OutOfScene = false;
+
+			if (this->m_Xpos <= SCENE_XPOSITION)
+			{
+				SDL_WarpMouseInWindow(sdl_window, SCENE_XPOSITION + SCENE_WIDTH - 5, this->m_Ypos);
+				this->m_OutOfScene = true;
+			}
+			if (this->m_Xpos >= SCENE_XPOSITION + SCENE_WIDTH)
+			{
+				SDL_WarpMouseInWindow(sdl_window, SCENE_XPOSITION + 5, this->m_Ypos);
+				this->m_OutOfScene = true;
+			}
+
+			if (this->m_Ypos <= 20)
+			{
+				SDL_WarpMouseInWindow(sdl_window, this->m_Xpos, SCENE_HEIGHT - 100);
+				this->m_OutOfScene = true;
+			}
+			if (this->m_Ypos >= SCENE_HEIGHT - 100)
+			{
+				SDL_WarpMouseInWindow(sdl_window, this->m_Xpos, 25);
+				this->m_OutOfScene = true;
+			}
+				
 		}
 	}
 

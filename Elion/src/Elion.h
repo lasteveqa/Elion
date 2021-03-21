@@ -9,7 +9,7 @@
 
 #include "Renderer/ParticleSystem.h"
 #include "Renderer/Camera.h"
-#include "Renderer/OBJLoader.h"
+#include "Renderer/OBJFileLoader.h"
 #include "Renderer/Shader.h"
 #include "Renderer/Renderer.h"
 #include "Renderer/VertexBuffer.h"

@@ -32,6 +32,9 @@ namespace Elion
 					 if (m_PrimitiveTypes.size() != m_SetOfProperties.size())
 					 {
 						 m_SetOfProperties.push_back(SetOfPropeties());
+						/* str_index = std::to_string(index);
+						 ImGui::Selectable(str_index.c_str());*/
+						 
 					 }
 					 
 						 if (m_PrimitiveTypes[i] == PrimitiveTypes::TRIANGLE)
@@ -74,6 +77,15 @@ namespace Elion
 							 }
 						 }
 
+						 else if (m_PrimitiveTypes[i] == PrimitiveTypes::SPHERE)
+						 {
+							 str_index = std::to_string(i) + ": Sphere";
+							 if (ImGui::Selectable(str_index.c_str()))
+							 {
+								 index = i;
+							 }
+						 }
+
 					}
 					
 					if (!m_SetOfProperties.empty())
@@ -82,7 +94,6 @@ namespace Elion
 							m_Scene.set_item_color(m_SetOfProperties[index].color, index);
 							m_Scene.set_item_scale(m_SetOfProperties[index].scale, index);
 							m_Scene.set_item_projection(m_SetOfProperties[index].projection, index);
-						
 							m_Scene.set_item_rotation(m_SetOfProperties[index].rotation, index);
 					}
 				}

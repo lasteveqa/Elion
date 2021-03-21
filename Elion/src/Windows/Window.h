@@ -77,4 +77,6 @@ namespace Elion
 		}
 	};
 
+	extern SDL_Window* sdl_window;
+
 }

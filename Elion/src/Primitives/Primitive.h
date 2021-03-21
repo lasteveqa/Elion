@@ -2,6 +2,7 @@
 #include "Core/Core.h"
 #include "Renderer/Shader.h"
 #include "Renderer/Camera.h"
+#include "Renderer/Entity.h"
 #include "Renderer/VertexBuffer.h" 
 #include "Core/WindowProperties.h"
 #include "Scene/SceneCamera.h"
@@ -15,7 +16,8 @@ namespace Elion
 		TRIANGLE = 0,
 		QUAD = 1,
 		ROUND = 2,
-		CUBE = 3
+		CUBE = 3,
+		SPHERE = 4
 	};
 
 
@@ -72,7 +74,7 @@ namespace Elion
 
 		float Radians;
 		float Width, Height, Near , Far;
-		Projection(float radians = 45.0f, float width = SCENE_WIDTH, float height = SCENE_HEIGHT, float _near = 1.0f , float _far = 100.0f) :
+		Projection(float radians = 45.0f, float width = SCENE_WIDTH, float height = SCENE_HEIGHT, float _near = 0.1f , float _far = 1000.0f) :
 			Radians(radians),
 			Width(width),
 			Height(height),
@@ -83,13 +85,6 @@ namespace Elion
 		}
 	};
 
-
-	//Custom Primitive Object
-	struct PObject
-	{
-		GLuint VBO, VAO, EBO, Texture, Program;
-		std::shared_ptr<Shader> shader;
-	};
 
 	
 
@@ -104,6 +99,7 @@ namespace Elion
 
 	protected:
 
+		//OBJLoader PrimitiveMeshLoader;
 
 		GLuint VBO, VAO, EBO, Texture;
 
@@ -123,6 +119,10 @@ namespace Elion
 		Projection projection;
 
 		WindowProperties m_WProps;
+
+
+		float m_Radius = 1.0f;
+		const float m_DoublePI = 3.141592 * 2;
 		
 
 		Primitive() = default;

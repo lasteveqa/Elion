@@ -73,7 +73,7 @@ namespace Elion
                 mat4 MVP = projection * cameraView * transform;
 				gl_Position = MVP * vec4(a_Position, 1.0);
                 FragPos = vec4(a_Position, 1.0f);
-                Normal = vec4(a_Position, 1.0f);
+                Normal = normalize(vec4(a_Position, 1.0f));
 
 			}
 		)";
@@ -102,7 +102,7 @@ namespace Elion
 
 				void main()
 				{
-               float ambientStrength = 0.2;
+               float ambientStrength = 0.1;
                vec4 ambient = ambientStrength * LightColor;
 
                vec4 norm = normalize(Normal);
@@ -132,11 +132,11 @@ namespace Elion
 
 			uint32_t indices[] = { 
 				0, 1, 2, 2, 3, 0,
-		0, 3, 4, 4, 5, 0,
-		0, 5, 6, 6, 1, 0,
-		1, 6, 7, 7, 2, 1,
-		7, 4, 3, 3, 2, 7,
-		7, 4, 5, 5, 6, 7
+		        0, 3, 4, 4, 5, 0,
+		        0, 5, 6, 6, 1, 0,
+		        1, 6, 7, 7, 2, 1,
+		        3, 4, 7, 7, 2, 3,
+		        7, 4, 5, 5, 6, 7
 
 				};
 
@@ -177,6 +177,7 @@ namespace Elion
 
 		glUseProgram(this->program);
 
+		
 		glBindVertexArray(VAO);
 
 		GLint ColorUniform = glGetUniformLocation(program, "UniformColor");
@@ -197,8 +198,8 @@ namespace Elion
 
 			transform = glm::mat4(1.0f);
 			transform = glm::translate(transform, glm::vec3(position.X, position.Y, position.Z));
-			transform = glm::scale(transform, glm::vec3(scale.X, scale.Y, scale.Z));
 			transform = glm::rotate(transform, glm::radians(rotation.Radians), glm::vec3(rotation.X, rotation.Y, rotation.Z));
+			transform = glm::scale(transform, glm::vec3(scale.X, scale.Y, scale.Z));
 
 			Cam::render();
 	

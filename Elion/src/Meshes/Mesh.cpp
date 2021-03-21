@@ -47,7 +47,7 @@ namespace Elion
 				}
         )";
 
-		generate_grid(120, this->m_Vectices, this->m_Indices);
+		generate_grid(60, this->m_Vectices, this->m_Indices);
 
 		this->m_Program = this->shader->load_native_GLSL(vertexSrc, fragmentSrc);
 
@@ -83,9 +83,6 @@ namespace Elion
 	void Mesh::draw()
 	{
 		glUseProgram(this->m_Program);
-
-	//	glEnable(GL_DEPTH_TEST);
-
 		glBindVertexArray(this->m_VAO);
 
 
@@ -93,10 +90,9 @@ namespace Elion
 		mat_projection = glm::perspective(glm::radians(45.0f), (GLfloat)(SCENE_WIDTH / SCENE_HEIGHT), 0.1f, 1000.0f);
 
 		glm::mat4 transform = glm::mat4(1.0f);
-		transform = glm::translate(transform, glm::vec3(-50.0f, 0.0f, -25.0f));
-		transform = glm::scale(transform, glm::vec3(100.0f, 1.0f, 100.0f));
-		transform = glm::rotate(transform, glm::radians(0.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-		
+		transform = glm::translate(transform, glm::vec3(-33.0f, 0.0f, -20.0f));
+		transform = glm::rotate(transform, glm::radians(0.0f), glm::vec3(1.0f, 1.0f, 1.0f));
+		transform = glm::scale(transform, glm::vec3(1.0f, 1.0f, 1.0f));
 		Cam::render();
 
 
@@ -112,12 +108,9 @@ namespace Elion
 		Cam::set_camera("cameraView", this->m_Program);
 
 		
-	
+
 		glDrawElements(GL_LINES, this->m_IndicesSize, GL_UNSIGNED_INT, NULL);
 		glUseProgram(0);
-
-		//glDisable(GL_DEPTH_TEST);
-
 		glBindVertexArray(0);
 	}
 
@@ -127,9 +120,9 @@ namespace Elion
 		
 		for (int j = 0; j <= N; ++j) {
 			for (int i = 0; i <= N; ++i) {
-				float x = (float)i / (float)N;
+				float x = (float)i / (float)N * 60;
 				float y = 0;
-				float z = (float)j / (float)N;
+				float z = (float)j / (float)N * 60;
 				vertices.push_back(glm::vec3(x, y, z));
 			}
 		}

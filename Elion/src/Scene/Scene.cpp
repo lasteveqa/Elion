@@ -28,6 +28,10 @@ namespace Elion
 		case PrimitiveTypes::CUBE:
 			m_Primitives.push_back(std::make_unique<Cube>());
 			break;
+
+		case PrimitiveTypes::SPHERE:
+			m_Primitives.push_back(std::make_unique<Sphere>());
+			break;
 		}
 	}
 

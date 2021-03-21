@@ -11,7 +11,7 @@ namespace Elion
 		const char* WindowName = "Elion Test";
 		const float Width = 1000.0f;
 		const float Height = 1000.0f;
-		SDL_Window* window;
+		//SDL_Window* window;
 		bool b_vsync = false;
 		SDL_GLContext gl_context;
 
@@ -23,11 +23,11 @@ namespace Elion
 		void update() override;
 		void clear() override;
 
-
+		
 		inline float get_width() { return this->Width; }
 		inline float get_height() { return this->Height; }
 
-		inline SDL_Window* get_window() { return this->window; }
+		inline SDL_Window* get_window() { return sdl_window; }
 		inline SDL_GLContext get_GLcontext() { return this->gl_context; }
 	};
 

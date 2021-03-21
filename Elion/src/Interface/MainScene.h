@@ -3,6 +3,7 @@
 #include "Renderer/Shader.h"
 #include "Renderer/Texture.h"
 #include "Meshes/Mesh.h"
+#include "Renderer/OBJFileLoader.h"
 namespace Elion
 {
 	
@@ -20,7 +21,7 @@ namespace Elion
 		private:
 
 			bool m_Opened = false;
-			bool m_FirstMouseClick = false;
+			bool m_OutOfScene = false;
 			int m_Xpos = 0, m_Ypos = 0;
 			int m_ButtonNumber = 0;
 
@@ -36,8 +37,11 @@ namespace Elion
 
 			Offset m_Offset;
 
+
+			OBJFileLoader obj;
+
 			//Skybox
-			std::unique_ptr<PObject> m_Skybox;
+			std::unique_ptr<Entity> m_Skybox;
 			std::vector<std::string> faces;
 			SetOfPropeties m_SkyboxProps;
 			float m_Pitch, m_Yaw, m_Xoffset, m_Yoffset;

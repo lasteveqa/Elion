@@ -53,6 +53,13 @@ namespace Elion
 							m_PrimitiveTypes.emplace_back(PrimitiveTypes::CUBE);
 							index++;
 						}
+
+						if (ImGui::MenuItem("Sphere"))
+						{
+							m_Scene.add_primitive(PrimitiveTypes::SPHERE);
+							m_PrimitiveTypes.emplace_back(PrimitiveTypes::SPHERE);
+							index++;
+						}
 						ImGui::EndMenu();
 					}
 					if (ImGui::BeginMenu("Texture"))

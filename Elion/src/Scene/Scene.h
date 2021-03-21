@@ -6,6 +6,7 @@
 #include "Primitives/Quad.h"
 #include "Primitives/Round.h"
 #include "Primitives/Cube.h"
+#include "Primitives/Sphere.h"
 #include "Events/KeyEvent.h"
 
 namespace Elion
@@ -14,16 +15,8 @@ namespace Elion
 	class Scene
 	{
 	private:
-		float Width = 700.0f;
-		float Height = 700.0f;
-		
-		std::vector<GLuint> m_VecVAO;
-
 
 		std::vector<std::unique_ptr<Primitive>> m_Primitives;
-
-
-
 
 	public:
 		Scene();
