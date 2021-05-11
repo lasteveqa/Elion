@@ -1,9 +1,7 @@
 #pragma once
 #include "Interface/UIComponent.h"
-#include "Renderer/Shader.h"
 #include "Renderer/Texture.h"
-#include "Meshes/Mesh.h"
-#include "Renderer/OBJFileLoader.h"
+#include "Grid/Grid.h"
 namespace Elion
 {
 	
@@ -37,8 +35,8 @@ namespace Elion
 
 			Offset m_Offset;
 
-
-			OBJFileLoader obj;
+			//ModelLoader m_Model;
+			//OBJFileLoader obj;
 
 			//Skybox
 			std::unique_ptr<Entity> m_Skybox;
@@ -48,9 +46,10 @@ namespace Elion
 			glm::vec3 m_CameraFront;
 			//
 
-			Mesh m_Mesh;
+			Grid m_Grid;
 
 		public:
+
 
 		    bool rotate_camera();
 			bool translate_camera();

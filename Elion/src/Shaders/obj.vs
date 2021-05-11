@@ -1,16 +1,14 @@
 #version 430 core
-layout (location = 0) in vec3 a_Position;
-layout (location = 1) in vec2 a_Texture;
-layout (location = 2) in vec3 a_Normal;
-
-out vec2 TexCoords;
+layout (location = 0) in vec3 aPos;
+layout (location = 1) in vec3 aNormal;
+layout (location = 2) in vec2 aTexCoords;
 
 uniform mat4 transform;
-uniform mat4 cameraView;
+uniform mat4 view;
 uniform mat4 projection;
 
 void main()
 {
-    TexCoords = a_Texture;
-    gl_Position = projection * cameraView * transform * vec4(a_Position, 1.0);
+    gl_Position = projection * view * transform * vec4(aPos, 1.0);
+
 }

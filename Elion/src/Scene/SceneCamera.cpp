@@ -26,5 +26,10 @@ namespace Elion
 		glUniformMatrix4fv(CameraLocation, 1, GL_FALSE, glm::value_ptr(CameraMatrix));
 	}
 
+	void Cam::set_camera(const std::string& uniform, Shader& shader)
+	{
+		GLint CameraLocation = glGetUniformLocation(shader.ID, uniform.c_str());
+		glUniformMatrix4fv(CameraLocation, 1, GL_FALSE, glm::value_ptr(CameraMatrix));
+	}
 	
 }

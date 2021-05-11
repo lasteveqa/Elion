@@ -8,7 +8,8 @@ namespace Elion
 	{
 	public:
 		void init() override;
-		void update() override;
+		void update(const std::string& filename) override;
 		void draw() override;
+		void free() override;
 	};
 }

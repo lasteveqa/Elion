@@ -17,8 +17,8 @@ namespace Elion
 			m_Primitives.push_back(std::make_unique<Triangle>());
 			break;
 
-		case PrimitiveTypes::QUAD:
-			m_Primitives.push_back(std::make_unique<Quad>());
+		case PrimitiveTypes::PLANE:
+			m_Primitives.push_back(std::make_unique<Plane>());
 			break;
 
 		case PrimitiveTypes::ROUND:
@@ -35,69 +35,8 @@ namespace Elion
 		}
 	}
 
-	void Scene::set_color(Color& color)
-	{
-		if (!m_Primitives.empty())
-		{
-			for (std::size_t i = 0; i < m_Primitives.size(); i++)
-			{
-				m_Primitives[i]->set_color(color);
-			}
-		}
-	}
 
-
-
-	void Scene::set_scale(Scale& size)
-	{
-		if (!m_Primitives.empty())
-		{
-			for (std::size_t i = 0; i < m_Primitives.size(); i++)
-			{
-				m_Primitives[i]->set_scale(size);
-			}
-		}
-	}
-
-
-	void Scene::set_position(Position& position)
-	{
-		if (!m_Primitives.empty())
-		{
-			for (std::size_t i = 0; i < m_Primitives.size(); i++)
-			{
-				m_Primitives[i]->set_position(position);
-			}
-		}
-	}
-
-
-
-	void Scene::set_rotation(Rotation& rotation)
-	{
-		if (!m_Primitives.empty())
-		{
-			for (std::size_t i = 0; i < m_Primitives.size(); i++)
-			{
-				m_Primitives[i]->set_rotation(rotation);
-			}
-		}
-	}
-
-
-
-
-	void Scene::set_projection(Projection& projection)
-	{
-		if (!m_Primitives.empty())
-		{
-			for (std::size_t i = 0; i < m_Primitives.size(); i++)
-			{
-				m_Primitives[i]->set_projection(projection);
-			}
-		}
-	}
-
+	
 
 
 	void Scene::set_item_color(const Color& color, int index)
@@ -158,15 +97,4 @@ namespace Elion
 				}
 	}
 
-
-	void Scene::clean_all_properties(unsigned int index)
-	{
-		do {
-			m_Primitives[index]->free();
-		} while (false);
-	}
-
-	void Scene::delete_item_of_primitives(unsigned int index)
-	{
-	}
 }

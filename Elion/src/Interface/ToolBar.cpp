@@ -31,10 +31,10 @@ namespace Elion
 							m_PrimitiveTypes.emplace_back(PrimitiveTypes::TRIANGLE);
 							index++;
 						}
-						if (ImGui::MenuItem("Quad"))
+						if (ImGui::MenuItem("Plane"))
 						{
-							m_Scene.add_primitive(PrimitiveTypes::QUAD);
-							m_PrimitiveTypes.emplace_back(PrimitiveTypes::QUAD);
+							m_Scene.add_primitive(PrimitiveTypes::PLANE);
+							m_PrimitiveTypes.emplace_back(PrimitiveTypes::PLANE);
 							index++;
 						}
 						if (ImGui::MenuItem("Round"))
@@ -43,10 +43,12 @@ namespace Elion
 							m_PrimitiveTypes.emplace_back(PrimitiveTypes::ROUND);
 							index++;
 						}
+
 						ImGui::EndMenu();
 					}
 					if (ImGui::BeginMenu("Mesh"))
 					{
+
 						if (ImGui::MenuItem("Cube"))
 						{
 							m_Scene.add_primitive(PrimitiveTypes::CUBE);

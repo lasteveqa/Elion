@@ -6,23 +6,23 @@ namespace Elion
 
 	void Cube::set_color(const Color& color)
 	{
-		this->color = color;
+		this->m_Props.color = color;
 	}
 
 	void Cube::set_position(const Position& position)
 	{
-		this->position = position;
+		this->m_Props.position = position;
 	}
 
 	void Cube::set_scale(const Scale& scale)
 	{
-		this->scale = scale;
+		this->m_Props.scale = scale;
 	}
 
 
 	void Cube::set_rotation(const Rotation& rotation)
 	{
-		this->rotation = rotation;
+		this->m_Props.rotation = rotation;
 	}
 
 	
@@ -30,7 +30,7 @@ namespace Elion
 
 	void Cube::set_projection(const Projection& projection)
 	{
-		this->projection = projection;
+		this->m_Props.projection = projection;
 	}
 
 
@@ -40,7 +40,7 @@ namespace Elion
 
 
 
-		if (!VAO)
+		if (!entity.VAO)
 		{
 
 
@@ -72,7 +72,7 @@ namespace Elion
 			{
                 mat4 MVP = projection * cameraView * transform;
 				gl_Position = MVP * vec4(a_Position, 1.0);
-                FragPos = vec4(a_Position, 1.0f);
+                FragPos = vec4(transform * vec4(a_Position, 1.0f));
                 Normal = normalize(vec4(a_Position, 1.0f));
 
 			}
@@ -141,24 +141,24 @@ namespace Elion
 				};
 
 			this->SizeIndices = sizeof(indices);
+		
+			this->entity.Program = this->entity.shader.load_native_GLSL(vertexSrc, fragmentSrc);
 
-			this->program = this->shader->load_native_GLSL(vertexSrc, fragmentSrc);
-
-			glCreateBuffers(1, &VBO);
-			glBindBuffer(GL_ARRAY_BUFFER, VBO);
+			glCreateBuffers(1, &entity.VBO);
+			glBindBuffer(GL_ARRAY_BUFFER, entity.VBO);
 			glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
-			glCreateVertexArrays(1, &VAO);
-			glBindVertexArray(VAO);
+			glCreateVertexArrays(1, &entity.VAO);
+			glBindVertexArray(entity.VAO);
 
 
-			glCreateBuffers(1, &EBO);
-			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+			glCreateBuffers(1, &entity.EBO);
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, entity.EBO);
 			glBufferData(GL_ELEMENT_ARRAY_BUFFER, this->SizeIndices * sizeof(float), indices, GL_STATIC_DRAW);
 
 
 
-			GLint position_attribute = glGetAttribLocation(program, "a_Position");
+			GLint position_attribute = glGetAttribLocation(entity.Program, "a_Position");
 			glEnableVertexAttribArray(position_attribute);
 			glVertexAttribPointer(position_attribute, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)(0 * sizeof(float)));
 
@@ -175,42 +175,42 @@ namespace Elion
 	void Cube::draw()
 	{
 
-		glUseProgram(this->program);
+		glUseProgram(this->entity.Program);
 
 		
-		glBindVertexArray(VAO);
+		glBindVertexArray(entity.VAO);
 
-		GLint ColorUniform = glGetUniformLocation(program, "UniformColor");
+		GLint ColorUniform = glGetUniformLocation(entity.Program, "UniformColor");
 
-		glUniform4f(ColorUniform, color.R, color.G, color.B, color.A);
+		glUniform4f(ColorUniform, m_Props.color.R, m_Props.color.G, m_Props.color.B, m_Props.color.A);
 
 		
-			GLint LightUniform = glGetUniformLocation(program, "LightColor");
+			GLint LightUniform = glGetUniformLocation(entity.Program, "LightColor");
 
 			glUniform4f(LightUniform, 1.0f, 1.0f, 1.0f, 1.0f);
 
-			GLint LightPosUniform = glGetUniformLocation(program, "LightPos");
+			GLint LightPosUniform = glGetUniformLocation(entity.Program, "LightPos");
 
 			glUniform3f(LightPosUniform, -8.0f, 8.0f, -8.0f);
 		
 			mat_projection = glm::mat4(1.0f);
-			mat_projection = glm::perspective(glm::radians(projection.Radians), (GLfloat)(SCENE_WIDTH / SCENE_HEIGHT), projection.Near, projection.Far);
+			mat_projection = glm::perspective(glm::radians(m_Props.projection.Radians), (GLfloat)(SCENE_WIDTH / SCENE_HEIGHT), m_Props.projection.Near, m_Props.projection.Far);
 
 			transform = glm::mat4(1.0f);
-			transform = glm::translate(transform, glm::vec3(position.X, position.Y, position.Z));
-			transform = glm::rotate(transform, glm::radians(rotation.Radians), glm::vec3(rotation.X, rotation.Y, rotation.Z));
-			transform = glm::scale(transform, glm::vec3(scale.X, scale.Y, scale.Z));
+			transform = glm::translate(transform, glm::vec3(m_Props.position.X, m_Props.position.Y, m_Props.position.Z));
+			transform = glm::rotate(transform, glm::radians(m_Props.rotation.Radians), glm::vec3(m_Props.rotation.X, m_Props.rotation.Y, m_Props.rotation.Z));
+			transform = glm::scale(transform, glm::vec3(m_Props.scale.X, m_Props.scale.Y, m_Props.scale.Z));
 
 			Cam::render();
 	
-		this->Translate = glGetUniformLocation(program, "transform");
-		this->ProjectionLocation = glGetUniformLocation(program, "projection");
+		GLint Translate = glGetUniformLocation(entity.Program, "transform");
+		GLint ProjectionLocation = glGetUniformLocation(entity.Program, "projection");
 
-		glUniformMatrix4fv(this->Translate, 1, GL_FALSE, glm::value_ptr(transform));
-		glUniformMatrix4fv(this->ProjectionLocation, 1, GL_FALSE, glm::value_ptr(mat_projection));
+		glUniformMatrix4fv(Translate, 1, GL_FALSE, glm::value_ptr(transform));
+		glUniformMatrix4fv(ProjectionLocation, 1, GL_FALSE, glm::value_ptr(mat_projection));
 
 		//Setting Camera
-		Cam::set_camera("cameraView", this->program);
+		Cam::set_camera("cameraView", this->entity.Program);
 
 		glDrawElements(GL_TRIANGLE_STRIP, this->SizeIndices, GL_UNSIGNED_SHORT, NULL);
 		glDrawElements(GL_TRIANGLE_STRIP, this->SizeIndices, GL_UNSIGNED_INT, (void*)0);
@@ -226,10 +226,10 @@ namespace Elion
 		glUseProgram(0);
 		glBindVertexArray(0);
 
-		glDeleteProgram(this->program);
-		glDeleteBuffers(1, &VBO);
-		glDeleteBuffers(1, &EBO);
-		glDeleteVertexArrays(1, &VAO);
+		glDeleteProgram(this->entity.Program);
+		glDeleteBuffers(1, &entity.VBO);
+		glDeleteBuffers(1, &entity.EBO);
+		glDeleteVertexArrays(1, &entity.VAO);
 
 	}
 

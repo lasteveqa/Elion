@@ -46,7 +46,7 @@ namespace Elion
 							 }
 						 }
 
-						 else if (m_PrimitiveTypes[i] == PrimitiveTypes::QUAD)
+						 else if (m_PrimitiveTypes[i] == PrimitiveTypes::PLANE)
 						 {
 
 							 str_index = std::to_string(i) + ": Quad";

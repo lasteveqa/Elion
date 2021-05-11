@@ -3,7 +3,7 @@
 #include "Core/Core.h"
 #include "Core/Time.h"
 #include "Primitives/Primitive.h"
-#include "Primitives/Quad.h"
+#include "Primitives/Plane.h"
 #include "glm/gtx/transform.hpp"
 #include "glm/gtc/type_ptr.hpp"
 #include "glm/gtx/compatibility.hpp"

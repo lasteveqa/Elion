@@ -15,18 +15,25 @@
 namespace Elion
 {
 
+
+
 	class ELION_API Shader
 	{
-	private:
-		GLuint m_program;
-		std::unordered_map<std::string, int> m_UnifromLocatios;
+
 	public:
+		GLuint ID;
 		Shader(){}
 		Shader(const char* vertex_file_path, const char* fragment_file_path);
 
 		 GLuint load_GLSL(const char* vertex_file_path, const char* fragment_file_path);
+		 void GLSL(const char* vertex_file_path, const char* fragment_file_path);
 		 GLuint load_native_GLSL(const std::string& vertex_shader, const std::string& fragment_shader);
 
+
+		 void bind() { glUseProgram(this->ID); }
+		 void unbind() { glUseProgram(0); }
+
+		 void set_mat4(const std::string& name, const glm::mat4& matrix) const;
 
 		void shaderLinkCheck(uint ID);
 		void shaderCompilerCheck(uint ID);
@@ -39,9 +46,7 @@ namespace Elion
 		void set_uniform1i(GLuint program ,const std::string& name , float value);
 
 
-		GLuint get_program() { return m_program; }
-	 
-		void mvp_func(GLuint program);
+		GLuint get_program() { return ID; }
 
 
 		~Shader(){}

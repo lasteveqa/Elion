@@ -1,11 +1,7 @@
 #pragma once
 #include <string>
 #include "GL/glew.h"
-#include "glm/glm.hpp"
-#include "glm/gtx/transform.hpp"
-#include "glm/gtc/type_ptr.hpp"
-#include "glm/gtx/compatibility.hpp"
-#include "Primitives/Primitive.h"
+#include "Renderer/Shader.h"
 
 namespace Elion
 {
@@ -24,6 +20,7 @@ namespace Elion
 
 		//glGetUniformLocation and glUniformMatrix4fv
 		static void set_camera(const std::string& uniform, GLuint program);
+		static void set_camera(const std::string& uniform, Shader& shader);
 		//static glm::mat4& zoom_camera(const Projection& projection, float Radians);
 
 		static void render();

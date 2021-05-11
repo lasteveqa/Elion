@@ -53,7 +53,7 @@ namespace Elion
 			};
 
 			this->m_Skybox = std::make_unique<Entity>();
-			this->m_Skybox->Program = m_Skybox->shader->load_GLSL("Shaders/skybox.vs", "Shaders/skybox.fs");
+			this->m_Skybox->Program = m_Skybox->shader.load_GLSL("Shaders/skybox.vs", "Shaders/skybox.fs");
 			
 			glCreateBuffers(1, &this->m_Skybox->VBO);
 			glBindBuffer(GL_ARRAY_BUFFER, this->m_Skybox->VBO);
@@ -78,9 +78,8 @@ namespace Elion
 			GLint position_attribute = glGetAttribLocation(this->m_Skybox->Program, "aPos");
 			glEnableVertexAttribArray(position_attribute);
 			glVertexAttribPointer(position_attribute, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)(0 * sizeof(float)));
-
-			this->m_Mesh.init();
-			this->obj.loadOBJ("img/sphere.obj");
+			this->m_Grid.init();
+			//this->m_Model = ModelLoader("img/sphere.obj");
 		}
 
 		void MainScene::render()
@@ -143,7 +142,7 @@ namespace Elion
 		
 			///////////////// Skybox
 
-			
+
 
 			//if (is_mouse_in_scene())
 			//{
@@ -168,15 +167,14 @@ namespace Elion
 
 			//}
 				
-
-				obj.update();
-				obj.draw();
+				
 			
 			m_Scene.update();
 			m_Scene.draw();
 
+			//this->m_Model.draw();
 
-			this->m_Mesh.draw();
+			this->m_Grid.draw();
 
 			
 		}

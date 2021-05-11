@@ -8,7 +8,7 @@ namespace Elion
     struct Entity
    {
 	   GLuint VBO, VAO, EBO, Texture, Program;
-	   std::shared_ptr<Shader> shader;
+	   Shader shader;
    };
 
 }

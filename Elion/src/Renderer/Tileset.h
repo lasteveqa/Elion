@@ -1,7 +1,7 @@
 #pragma once
 #include "Renderer/Texture.h"
 #include "Primitives/Primitive.h"
-#include "Primitives/Quad.h"
+#include "Primitives/Plane.h"
 namespace Elion {
 
 	

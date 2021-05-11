@@ -21,15 +21,6 @@ namespace Elion
 
 		};
 
-		struct SetOfPropeties
-		{
-			Color color;
-			Scale scale;
-			Position position;
-			Rotation rotation;
-			Projection projection;
-		};
-
 		class UIComponent
 		{
 		protected:
