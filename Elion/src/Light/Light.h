@@ -23,8 +23,8 @@ namespace Elion
 	public:
 
 		virtual void init(){}
-		virtual void update(const std::string& filename){}
-		virtual void draw(){}
+		virtual void update(){}
+		virtual void draw(Entity& entity){}
 		virtual void free(){}
 
 		//Light Position

@@ -41,6 +41,21 @@ namespace Elion
 				{
 					ImGui::EndMenu();
 				}
+				if (ImGui::BeginMenu("Settings"))
+				{
+					if (ImGui::MenuItem("OpenGL version"))
+					{
+						if (ImGui::MenuItem("OpenGL version"))
+						{
+
+						}
+					}
+					ImGui::EndMenu();
+				}
+				if (ImGui::BeginMenu("Help"))
+				{
+					ImGui::EndMenu();
+				}
 				ImGui::EndMainMenuBar();
 			}
 		}

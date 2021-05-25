@@ -64,8 +64,23 @@ namespace Elion
 						}
 						ImGui::EndMenu();
 					}
-					if (ImGui::BeginMenu("Texture"))
+					if (ImGui::BeginMenu("Light"))
 					{
+						if (ImGui::MenuItem("Directional Light"))
+						{
+						}
+						if (ImGui::MenuItem("Spot Light"))
+						{
+						}
+						if (ImGui::MenuItem("Point Light"))
+						{
+						}
+						if (ImGui::MenuItem("Rect Light"))
+						{
+						}
+						if (ImGui::MenuItem("Sky Light"))
+						{
+						}
 						ImGui::EndMenu();
 					}
 
