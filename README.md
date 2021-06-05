@@ -4,7 +4,14 @@
 
 Elion is generally rendering and graphic engine for Windows. 
 Currently implemented:
-1. responsive ImGui which is bounded to the main scene.
-2. smooth rendering primitive meshes and files(.obj, mtl etc.)
-3. lightning effects
+1. Responsive ImGui which is bounded to the main scene.
+2. Smooth rendering primitive meshes and files(.obj, mtl etc.)
+3. Lighting effects
 
+# 3d Patry Libraries
+1. SDL
+2. OpenGL
+3. ImGui
+4. Assimp
+5. Log
+6. Some math libraries
